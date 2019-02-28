@@ -1,2 +1,2 @@
 # jazzfest-grids-2.0
-jazzfestgrids.com UI redesign using MEVN
+Fullstack design of www.jazzfestgrids.com using MEVN
