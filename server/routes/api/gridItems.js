@@ -4,14 +4,14 @@ const router = express.Router();
 
 // Get Posts
 router.get('/', async (req, res) => {
-    const posts = await loadPostsCollection();
-    res.send(await posts.find({}).toArray());
+    const gridItems = await loadPostsCollection();
+    res.send(await gridItems.find({}).toArray());
 })
 
 // Add Posts
 router.post('/', async (req, res) => {
-    const posts = await loadPostsCollection();
-    await posts.insertOne({
+    const gridItems = await loadPostsCollection();
+    await gridItems.insertOne({
         text: req.body.text,
         createdAt: new Date()
     });
@@ -20,8 +20,8 @@ router.post('/', async (req, res) => {
 
 // Delete Posts
 router.delete('/:id', async (req, res) => {
-    const posts = await loadPostsCollection();
-    await posts.deleteOne({_id: new mongodb.ObjectID(req.params.id)});
+    const gridItems = await loadPostsCollection();
+    await gridItems.deleteOne({_id: new mongodb.ObjectID(req.params.id)});
     res.status(200).send();
 })
 
@@ -30,7 +30,7 @@ async function loadPostsCollection() {
         useNewUrlParser: true
     });
 
-    return client.db('jazzfest-grids').collection('posts');
+    return client.db('jazzfest-grids').collection('gridItems');
 }
 
 module.exports = router;
