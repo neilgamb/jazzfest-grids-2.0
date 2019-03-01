@@ -16,9 +16,15 @@
       class="grid"
     />
 
-    <Tabs :activeTab="currentPeriod" :setActiveTab="setActiveTab"/>
+    <Tabs 
+      :activeTab="currentPeriod" 
+      :setActiveTab="setActiveTab"
+    />
 
-    <ButtonContainer :addEventOpen="addEventOpen"/>
+    <ButtonContainer 
+      :addEventOpen="addEventOpen"
+      :addVenueOpen="addVenueOpen"
+    />
 
     <modals-container/>
 
@@ -26,16 +32,13 @@
 </template>
 
 <script>
-//main components
 import Grid from "./components/Grid";
 import Masthead from "./components/Masthead";
 import Tabs from "./components/Tabs";
-import ButtonContainer from './components/ButtonContainer';
-//modals
+import ButtonContainer from "./components/ButtonContainer";
 import EventDetailsModal from "./components/EventDetailsModal";
 import AddEventModal from "./components/AddEventModal";
 import AddVenueModal from "./components/AddVenueModal";
-//helpers & data
 import { data } from "./assets/data.js";
 import { collateGrid } from "./helpers.js";
 

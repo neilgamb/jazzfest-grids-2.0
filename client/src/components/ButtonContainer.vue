@@ -6,7 +6,7 @@
     <button @click="closeClicked" class="button button-cancel hide">
         <i class="fas fa-times"></i>
     </button>
-    <button class="button button-addVenue">
+    <button @click="addVenueOpen" class="button button-addVenue">
         <i class="fas fa-map-marker-alt"></i>
     </button>
     <button @click="eventClicked" class="button button-addEvent">
@@ -18,7 +18,7 @@
 <script>
 export default {
   name: "ButtonContainer",
-  props: ["addEventOpen"],
+  props: ["addEventOpen", "addVenueOpen"],
   methods: {
     addClicked(){
       document.querySelector('.button-cancel').classList.remove('hide');

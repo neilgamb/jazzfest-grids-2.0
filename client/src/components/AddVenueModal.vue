@@ -1,20 +1,26 @@
 <template>
   <div class="addVenueContainer">
     <div class="addVenue">
-      <h1>Add Event</h1>
+      <h1>Add Name</h1>
       
       <form class="create-venue">
         <div class="form-group">
-          <label>Band</label>
-          <input type="text" class="form-control" v-model="post.band">
+          <label>Name</label>
+          <input type="text" class="form-control" v-model="venue.name">
         </div>
-
         <div class="form-group">
-          <label>Featuring</label>
-          <textarea class="form-control" v-model="post.featuring" rows="1"></textarea>
+          <label>Address</label>
+          <input type="text" class="form-control" v-model="venue.address">
         </div>
-
-        <button v-on:click="createPost" class="createButton">Create</button>
+        <div class="form-group">
+          <label>Phone</label>
+          <input type="text" class="form-control" v-model="venue.phone">
+        </div>
+        <div class="form-group">
+          <label>Website</label>
+          <input type="text" class="form-control" v-model="venue.website">
+        </div>
+        <button v-on:click="addVenue" class="createButton">Add Venue</button>
       </form>
     </div>
 
@@ -44,7 +50,7 @@ export default {
     }
   },
   methods: {
-    async createVenue() {
+    async addVenue() {
       await VenueService.insertVenue(this.venue);
       this.venues = await VenueService.getVenues();
     },
