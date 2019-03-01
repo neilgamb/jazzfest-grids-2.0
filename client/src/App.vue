@@ -26,12 +26,16 @@
 </template>
 
 <script>
+//main components
 import Grid from "./components/Grid";
 import Masthead from "./components/Masthead";
 import Tabs from "./components/Tabs";
 import ButtonContainer from './components/ButtonContainer';
+//modals
 import EventDetailsModal from "./components/EventDetailsModal";
 import AddEventModal from "./components/AddEventModal";
+import AddVenueModal from "./components/AddVenueModal";
+//helpers & data
 import { data } from "./assets/data.js";
 import { collateGrid } from "./helpers.js";
 
@@ -81,6 +85,17 @@ export default {
     addEventOpen: function() {
       this.$modal.show(
         AddEventModal,
+        {},
+        {
+          adaptive: true,
+          width: "100%",
+          height: "100%"
+        }
+      );
+    },
+    addVenueOpen: function() {
+      this.$modal.show(
+        AddVenueModal,
         {},
         {
           adaptive: true,

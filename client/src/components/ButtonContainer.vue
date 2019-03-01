@@ -9,7 +9,7 @@
     <button class="button button-addVenue">
         <i class="fas fa-map-marker-alt"></i>
     </button>
-    <button class="button button-addEvent">
+    <button @click="eventClicked" class="button button-addEvent">
         <i class="fas fa-music"></i>
     </button>
   </div>
@@ -21,7 +21,6 @@ export default {
   props: ["addEventOpen"],
   methods: {
     addClicked(){
-      // reveal hidden icons
       document.querySelector('.button-cancel').classList.remove('hide');
       document.querySelector('.button-add').classList.remove('hide');
       document.querySelector('.button-addVenue').classList.add('reveal-animate-addVenue');
@@ -36,6 +35,10 @@ export default {
       document.querySelector('.button-addEvent').classList.remove('reveal-animate-addEvent');
       document.querySelector('.button-addVenue').classList.add('hide-animate-addVenue');
       document.querySelector('.button-addEvent').classList.add('hide-animate-addEvent');
+    },
+    eventClicked() {
+      this.closeClicked();
+      this.addEventOpen();
     }
   }
 };
