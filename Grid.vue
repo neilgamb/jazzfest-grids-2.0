@@ -24,6 +24,7 @@
 
 <script>
 import GridService from '../GridService';
+
 export default {
   name: 'Grid',
   data() {

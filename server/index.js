@@ -8,8 +8,11 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-const posts = require('./routes/api/gridItems');
-app.use('/api/gridItems', posts);
+const events = require('./routes/api/events');
+app.use('/api/events', events);
+
+const venues = require('./routes/api/venues');
+app.use('/api/venues', venues);
 
 const port = process.env.PORT || 5000;
 
