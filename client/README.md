@@ -1,4 +1,4 @@
-# client
+# jazzfest-grids
 
 ## Project setup
 ```
