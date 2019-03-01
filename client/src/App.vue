@@ -18,11 +18,10 @@
 
     <Tabs :activeTab="currentPeriod" :setActiveTab="setActiveTab"/>
 
-    <button class="addEventButton" v-on:click="addEventOopen()">
-      <i class="fas fa-plus"></i>
-    </button>
+    <ButtonContainer :addEventOpen="addEventOpen"/>
 
     <modals-container/>
+
   </div>
 </template>
 
@@ -30,6 +29,7 @@
 import Grid from "./components/Grid";
 import Masthead from "./components/Masthead";
 import Tabs from "./components/Tabs";
+import ButtonContainer from './components/ButtonContainer';
 import EventDetailsModal from "./components/EventDetailsModal";
 import AddEventModal from "./components/AddEventModal";
 import { data } from "./assets/data.js";
@@ -40,7 +40,8 @@ export default {
   components: {
     Masthead,
     Grid,
-    Tabs
+    Tabs,
+    ButtonContainer,
   },
   data() {
     return {
@@ -77,7 +78,7 @@ export default {
     eventDetailsClose: function() {
       this.currentEventDetails = null;
     },
-    addEventOopen: function() {
+    addEventOpen: function() {
       this.$modal.show(
         AddEventModal,
         {},
@@ -115,6 +116,7 @@ export default {
   flex-direction: column;
   box-sizing: border-box;
   background: rgb(15, 15, 15);
+  /* background-image: linear-gradient(to right top, #12161c, #141924, #161c2c, #1b1e33, #21203a); */
   color: white;
 }
 
@@ -125,21 +127,5 @@ export default {
 
 .grid {
   flex: 1;
-}
-
-.addEventButton {
-  position: absolute;
-  height: 60px;
-  width: 60px;
-  background: white;
-  color: black;
-  bottom: 70px;
-  right: 10px;
-  border-radius: 50%;
-  transition: 50ms;
-}
-
-.addEventButton:active {
-  transform: scale(0.9);
 }
 </style>

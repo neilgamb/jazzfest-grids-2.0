@@ -2,7 +2,8 @@
   <div class="addEventContainer">
     <div class="addEvent">
       <h1>Add Event</h1>
-      <form @submit.prevent="addPost">
+      
+      <form class="create-post">
         <div class="form-group">
           <label>Band</label>
           <input type="text" class="form-control" v-model="post.band">
@@ -38,7 +39,7 @@
           <input type="text" class="form-control" v-model="post.tix">
         </div>
 
-        <button class="createButton">Create</button>
+        <button v-on:click="createPost" class="createButton">Create</button>
       </form>
     </div>
 
@@ -49,16 +50,32 @@
 </template>
 
 <script>
+import GridService from '../GridService';
+
 export default {
   name: "AddEventModal",
   data() {
     return {
+      gridItems: [],
+      error: "",
       post: {}
-    };
+    }
+  },
+  async created() {
+    try {
+      this.gridItems = await GridService.getGridItems();
+    } catch (error) {
+      this.error = error.message;
+    }
   },
   methods: {
-    addPost() {
-      console.log(this.post);
+    async createPost() {
+      await GridService.insertPost(this.post);
+      this.gridItems = await GridService.getGridItems();
+    },
+    async deletePost(id) {
+      await GridService.deletePost(id);
+      this.gridItems = await GridService.getGridItems();
     }
   }
 };
