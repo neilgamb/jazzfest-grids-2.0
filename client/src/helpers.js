@@ -56,3 +56,26 @@ export function collateGrid(grid) {
   });
   return grid;
 }
+
+export function autoComplete(input, venueUpdate){
+  if(!input) return;
+
+  const nolaBounds = new google.maps.LatLngBounds(
+    new google.maps.LatLng(29.915024, -90.182380),
+    new google.maps.LatLng(30.034468, -90.000310),
+  );
+
+  const options = {
+    bounds: nolaBounds,
+    strictBounds: true,
+    types: ['establishment']
+  };
+
+  const dropdown = new google.maps.places.Autocomplete(input, options);
+
+  dropdown.addListener('place_changed', () => {
+    const place = dropdown.getPlace();
+    venueUpdate(place);
+  })
+
+}

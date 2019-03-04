@@ -6,21 +6,9 @@
       <form class="create-venue">
         <div class="form-group">
           <label>Name</label>
-          <input type="text" class="form-control" v-model="venue.name">
+          <input type="text" id="venueInput" class="form-control" v-model="venue.name">
         </div>
-        <div class="form-group">
-          <label>Address</label>
-          <input type="text" class="form-control" v-model="venue.address">
-        </div>
-        <div class="form-group">
-          <label>Phone</label>
-          <input type="text" class="form-control" v-model="venue.phone">
-        </div>
-        <div class="form-group">
-          <label>Website</label>
-          <input type="text" class="form-control" v-model="venue.website">
-        </div>
-        <button v-on:click="addVenue" class="createButton">Add Venue</button>
+        <div id="map"></div>
       </form>
     </div>
 
@@ -32,6 +20,8 @@
 
 <script>
 import VenueService from '../VenueService';
+import { autoComplete } from '../helpers';
+import { mapStyles } from '../mapStyles';
 
 export default {
   name: "AddVenueModal",
@@ -49,6 +39,10 @@ export default {
       this.error = error.message;
     }
   },
+  mounted(){
+    this.autoCompleteInit();
+    this.mapInit()
+  },
   methods: {
     async addVenue() {
       await VenueService.insertVenue(this.venue);
@@ -57,6 +51,50 @@ export default {
     async deleteVenue(id) {
       await VenueService.deleteVenue(id);
       this.venues = await VenueService.getVenues();
+    },
+    autoCompleteInit() {
+      const venueInput = document.querySelector('#venueInput');
+      autoComplete(venueInput, this.venueUpdate);
+    },
+    mapInit() {
+      const newOrleans = {lat: 29.935464, lng: -90.095124};
+      const map = new google.maps.Map(
+        document.getElementById('map'), {
+          zoom: 12, 
+          center: newOrleans,
+          styles: mapStyles,
+          disableDefaultUI: true,
+          zoomControl: true,
+          fullscreenControl: true
+        }
+      );
+    },
+    venueUpdate(venue){
+      // set data
+      this.venue = venue;
+
+      const venueCoordinates = {
+        lat: venue.geometry.location.lat(), 
+        lng: venue.geometry.location.lng()
+      };
+
+      // update map
+      const map = new google.maps.Map(
+        document.getElementById('map'), {
+          zoom: 17, 
+          center: venueCoordinates,
+          styles: mapStyles,
+          disableDefaultUI: true,
+          zoomControl: true,
+          fullscreenControl: true
+        }
+      );
+
+      // add marker
+      const marker = new google.maps.Marker({
+        position: venueCoordinates, 
+        map: map
+      });
     }
   }
 };
@@ -111,6 +149,11 @@ export default {
   flex: 5;
   border: 1px solid #f0f0f0;
   padding: 5px;
+}
+
+#map {
+  height: 400px;
+  width: 100%;
 }
 
 .createButton {
