@@ -39,7 +39,7 @@
           <input type="text" class="form-control" v-model="post.tix">
         </div>
 
-        <button v-on:click="createPost" class="createButton">Create</button>
+        <div v-on:click="createPost" class="createButton">Create</div>
       </form>
     </div>
 

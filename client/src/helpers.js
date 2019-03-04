@@ -58,6 +58,8 @@ export function collateGrid(grid) {
 }
 
 export function autoComplete(input, venueUpdate){
+  const google = window.google;
+
   if(!input) return;
 
   const nolaBounds = new google.maps.LatLngBounds(
@@ -76,6 +78,6 @@ export function autoComplete(input, venueUpdate){
   dropdown.addListener('place_changed', () => {
     const place = dropdown.getPlace();
     venueUpdate(place);
-  })
+  });
 
 }

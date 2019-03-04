@@ -1,20 +1,22 @@
 <template>
   <div class="addVenueContainer">
-    <div class="addVenue">
-      <h1>Add Name</h1>
-      
-      <form class="create-venue">
-        <div class="form-group">
-          <label>Name</label>
-          <input type="text" id="venueInput" class="form-control" v-model="venue.name">
-        </div>
-        <div id="map"></div>
-      </form>
+
+    <header>
+      <h1>Add Venue</h1>
+      <button @click="$emit('close')" class="closeButton">
+        <i class="fas fa-times"></i>
+      </button>
+    </header>
+
+    <input @blur="venueInputBlur" type="text" id="venueInput" class="form-control">
+
+    <div id="map"></div>
+
+    <div class="actions">
+      <div v-if="error" class="errorMsg">{{ this.errorMsg }}</div>
+      <button v-if="!error" v-on:click="addVenue" id="addVenue" class="createButton disabled">Add Venue</button>
     </div>
 
-    <button @click="$emit('close')" class="closeButton">
-      <i class="fas fa-times"></i>
-    </button>
   </div>
 </template>
 
@@ -28,26 +30,34 @@ export default {
   data() {
     return {
       venues: [],
-      error: "",
-      venue: {}
+      error: false,
+      errorMsg: "",
+      venue: null
     }
   },
   async created() {
     try {
       this.venues = await VenueService.getVenues();
     } catch (error) {
-      this.error = error.message;
+      this.error = true;
+      this.errorMsg = error.message;
     }
   },
   mounted(){
     this.autoCompleteInit();
-    this.mapInit()
+    this.mapInit();
   },
   methods: {
     async addVenue() {
-      await VenueService.insertVenue(this.venue);
-      this.venues = await VenueService.getVenues();
+      const { venue, error } = this;
+
+      // check for errors before submitting server requests
+      if (!error) {
+        await VenueService.insertVenue(venue);
+        this.venues = await VenueService.getVenues();
+      }
     },
+    // not currently being used anywhere
     async deleteVenue(id) {
       await VenueService.deleteVenue(id);
       this.venues = await VenueService.getVenues();
@@ -57,7 +67,9 @@ export default {
       autoComplete(venueInput, this.venueUpdate);
     },
     mapInit() {
+      const google = window.google;
       const newOrleans = {lat: 29.935464, lng: -90.095124};
+      /*eslint-disable no-unused-vars*/
       const map = new google.maps.Map(
         document.getElementById('map'), {
           zoom: 12, 
@@ -70,7 +82,9 @@ export default {
       );
     },
     venueUpdate(venue){
-      // set data
+      const google = window.google;
+
+      // set venue
       this.venue = venue;
 
       const venueCoordinates = {
@@ -79,6 +93,7 @@ export default {
       };
 
       // update map
+      /*eslint-disable no-unused-vars*/
       const map = new google.maps.Map(
         document.getElementById('map'), {
           zoom: 17, 
@@ -91,11 +106,42 @@ export default {
       );
 
       // add marker
+      /*eslint-disable no-unused-vars*/
       const marker = new google.maps.Marker({
         position: venueCoordinates, 
         map: map
       });
-    }
+
+      this.addVenueErrorHandle();
+    },
+    venueInputBlur(e){
+      if(e.target.value === "") {
+        this.venue = null;
+      }
+      this.addVenueErrorHandle();
+    },
+    addVenueErrorHandle() {
+      const { venue, venues } = this;
+      // check to make sure input is not empty
+      // disable button if so
+      if(!venue) {
+        this.error = true;
+        this.errorMsg = "Please select a venue";
+        document.getElementById('addVenue').classList.add('disabled');
+        return;
+      }
+
+      // check if venues already contains venue
+      if(venue && venues.some(ven => ven.venue.id === venue.id)){
+        this.error = true;
+        this.errorMsg = "This venue already exists in the database!";
+        return;
+      } 
+
+      this.error = false;
+      this.errorMsg = "";
+      document.getElementById('addVenue').classList.remove('disabled');
+    },
   }
 };
 </script>
@@ -106,78 +152,82 @@ export default {
   width: 100%;
   display: flex;
   flex-direction: column;
-  color: black;
-  padding: 10px;
   box-sizing: border-box;
   position: relative;
-}
-
-.addVenue {
-  flex: 12;
-  display: flex;
-  flex-direction: column;
-}
-
-.addVenue h1 {
-  flex: 1;
-  margin: 0;
-}
-
-.addVenue form {
-  flex: 12;
-}
-
-.addVenue form {
-  display: flex;
-  flex-direction: column;
-}
-
-.addVenue form .form-group {
-  display: flex;
-  flex-direction: row;
+  background: rgb(15, 15, 15);
+  color: white;
   padding: 10px;
 }
 
-.addVenue label {
-  flex: 2;
+header {
   display: flex;
+  justify-content: space-between;
   align-items: center;
 }
 
-.addVenue input,
-.addVenue textarea {
-  flex: 5;
-  border: 1px solid #f0f0f0;
-  padding: 5px;
+header h1 {
+  margin: 0 5px;
+  font-size: 24px;
 }
 
-#map {
-  height: 400px;
-  width: 100%;
-}
-
-.createButton {
-  position: absolute;
-  left: 0px;
-  right: 0px;
-  bottom: 0px;
-  height: 50px;
-  border-top: 1px solid #f0f0f0;
-  width: 100%;
-  background: white;
-}
-
-.closeButton {
-  background: white;
-  position: absolute;
-  background: white;
+header .closeButton {
+  background: rgb(15, 15, 15);
+  color: white;
   border: none;
   border-radius: 50%;
   font-size: 20px;
-  width: 50px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#venueInput {
+  background: #08304b;
+  border: 3px solid white;
+  color: white;
+  padding: 10px;
+  box-sizing: border-box;
+  margin-top: 10px;
+  font-size: 20px;
+}
+
+#venueInput::placeholder {
+  color: white;
+}
+
+#map {
+  margin-top: 10px;
+  height: 300px;
+  width: 100%;
+  border: 3px solid white;
+  box-sizing: border-box;
+}
+
+.actions {
+  margin-top: auto;
+}
+
+.errorMsg, 
+.createButton {
   height: 50px;
-  top: 5px;
-  right: 5px;
+  border: none;
+  border: 3px solid white;
+  color: white;
+  width: 100%;
+  background: none;
+}
+
+.createButton.disabled {
+  opacity: .5;
+}
+
+.errorMsg {
+  box-sizing: border-box;
+  background: rgb(207, 66, 66);
+  border-color: rgb(207, 66, 66);
+  color: white;
 }
 </style>
 
