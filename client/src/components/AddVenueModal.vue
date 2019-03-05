@@ -12,9 +12,17 @@
 
     <div id="map"></div>
 
+    <div class="venueDetails">
+      <div class="address"></div>
+      <div class="contact">
+        <div class="phone"></div>
+        <div class="web"></div>
+      </div>
+    </div>
+
     <div class="actions">
       <div v-if="error" class="errorMsg">{{ this.errorMsg }}</div>
-      <button v-if="!error" v-on:click="addVenue" id="addVenue" class="createButton disabled">Add Venue</button>
+      <button v-if="!error" v-on:click="addVenue" id="addVenue" class="createButton">Add Venue</button>
     </div>
 
   </div>
@@ -46,6 +54,7 @@ export default {
   mounted(){
     this.autoCompleteInit();
     this.mapInit();
+    this.addVenueErrorHandle();
   },
   methods: {
     async addVenue() {
@@ -81,17 +90,13 @@ export default {
         }
       );
     },
-    venueUpdate(venue){
-      const google = window.google;
-
-      // set venue
-      this.venue = venue;
-
+    mapUpdate() {
+      const { google } = window;
+      const { venue } = this;
       const venueCoordinates = {
         lat: venue.geometry.location.lat(), 
         lng: venue.geometry.location.lng()
       };
-
       // update map
       /*eslint-disable no-unused-vars*/
       const map = new google.maps.Map(
@@ -111,7 +116,20 @@ export default {
         position: venueCoordinates, 
         map: map
       });
-
+    },
+    detailsUpdate() {
+      const { venue } = this;
+      const address = document.querySelector('.address');
+      const phone = document.querySelector('.phone');
+      const web = document.querySelector('.web');
+      address.innerHTML = `${venue.address_components[0].long_name} ${venue.address_components[1].long_name}`
+      phone.innerHTML = "PHONE"
+      web.innerHTML = "WEBSITE";
+    },
+    venueUpdate(venue){
+      this.venue = venue;
+      this.mapUpdate();
+      this.detailsUpdate();
       this.addVenueErrorHandle();
     },
     venueInputBlur(e){
@@ -122,12 +140,11 @@ export default {
     },
     addVenueErrorHandle() {
       const { venue, venues } = this;
+
       // check to make sure input is not empty
-      // disable button if so
       if(!venue) {
         this.error = true;
         this.errorMsg = "Please select a venue";
-        document.getElementById('addVenue').classList.add('disabled');
         return;
       }
 
@@ -140,7 +157,6 @@ export default {
 
       this.error = false;
       this.errorMsg = "";
-      document.getElementById('addVenue').classList.remove('disabled');
     },
   }
 };
@@ -205,6 +221,35 @@ header .closeButton {
   box-sizing: border-box;
 }
 
+.venueDetails {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.address {
+  font-size: 24px;
+  width: 100%;
+  text-align: center;
+}
+
+.contact {
+  font-size: 16px;
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.venueDetails .phone, 
+.venueDetails .web {
+  width: 40%;
+  padding: 10px;
+  text-align: center;
+  border: 3px solid white;
+}
+
 .actions {
   margin-top: auto;
 }
@@ -212,21 +257,24 @@ header .closeButton {
 .errorMsg, 
 .createButton {
   height: 50px;
-  border: none;
   border: 3px solid white;
-  color: white;
   width: 100%;
-  background: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.createButton.disabled {
-  opacity: .5;
+.createButton {
+  color: black;
+  background: white;
+  font-size: 20px;
+  font-weight: 800;
 }
 
 .errorMsg {
   box-sizing: border-box;
   background: rgb(207, 66, 66);
-  border-color: rgb(207, 66, 66);
+  border: 3px solid white;
   color: white;
 }
 </style>
