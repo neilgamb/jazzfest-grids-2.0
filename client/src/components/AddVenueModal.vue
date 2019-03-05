@@ -12,11 +12,11 @@
 
     <div id="map"></div>
 
-    <div class="venueDetails">
-      <div class="address"></div>
+    <div v-if="venue" class="venueDetails">
+      <div class="address">{{ `${venue.address_components[0].long_name} ${venue.address_components[1].long_name}` }}</div>
       <div class="contact">
-        <div class="phone"></div>
-        <div class="web"></div>
+        <a class="phone" :href="`tel:${venue.international_phone_number}`">{{ venue.formatted_phone_number }}</a>
+        <a class="web" :href="`${venue.website}`" target="_blank">Website</a>
       </div>
     </div>
 
@@ -117,19 +117,19 @@ export default {
         map: map
       });
     },
-    detailsUpdate() {
-      const { venue } = this;
-      const address = document.querySelector('.address');
-      const phone = document.querySelector('.phone');
-      const web = document.querySelector('.web');
-      address.innerHTML = `${venue.address_components[0].long_name} ${venue.address_components[1].long_name}`
-      phone.innerHTML = "PHONE"
-      web.innerHTML = "WEBSITE";
-    },
+    // detailsUpdate() {
+    //   const { venue } = this;
+    //   const address = document.querySelector('.address');
+    //   const phone = document.querySelector('.phone');
+    //   const web = document.querySelector('.web');
+    //   address.innerHTML = `${venue.address_components[0].long_name} ${venue.address_components[1].long_name}`
+    //   phone.innerHTML = "PHONE"
+    //   web.innerHTML = "WEBSITE";
+    // },
     venueUpdate(venue){
       this.venue = venue;
       this.mapUpdate();
-      this.detailsUpdate();
+      // this.detailsUpdate();
       this.addVenueErrorHandle();
     },
     venueInputBlur(e){
@@ -248,6 +248,8 @@ header .closeButton {
   padding: 10px;
   text-align: center;
   border: 3px solid white;
+  color: white;
+  text-decoration: none;
 }
 
 .actions {
