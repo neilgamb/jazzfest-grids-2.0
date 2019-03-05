@@ -36,6 +36,7 @@ import Grid from "./components/Grid";
 import Masthead from "./components/Masthead";
 import Tabs from "./components/Tabs";
 import ButtonContainer from "./components/ButtonContainer";
+import VenueService from './VenueService';
 import EventDetailsModal from "./components/EventDetailsModal";
 import AddEventModal from "./components/AddEventModal";
 import AddVenueModal from "./components/AddVenueModal";
@@ -55,9 +56,20 @@ export default {
       currentDay: 0,
       currentPeriod: 0,
       currentEventDetails: null,
+      venues: [],
+      error: false,
+      errorMsg: "",
       dates: data.dates,
       grid: collateGrid(data.grid)
     };
+  },
+  async created() {
+    try {
+      this.venues = await VenueService.getVenues();
+    } catch (error) {
+      this.error = true;
+      this.errorMsg = error.message;
+    }
   },
   methods: {
     setCurrentDay: function(day) {
@@ -88,7 +100,7 @@ export default {
     addEventOpen: function() {
       this.$modal.show(
         AddEventModal,
-        {name: "addVenueModal"},
+        {},
         {
           adaptive: true,
           width: "100%",
@@ -99,7 +111,7 @@ export default {
     addVenueOpen: function() {
       this.$modal.show(
         AddVenueModal,
-        {},
+        { venues: this.venues },
         {
           adaptive: true,
           width: "100%",

@@ -8,7 +8,7 @@
       </button>
     </header>
 
-    <input @blur="venueInputBlur" type="text" id="venueInput" class="form-control">
+    <input @blur="venueInputBlur" @focus="clearInput" type="text" id="venueInput" class="form-control">
 
     <div id="map"></div>
 
@@ -35,20 +35,13 @@ import { mapStyles } from '../mapStyles';
 
 export default {
   name: "AddVenueModal",
+  props: ["venues"],
   data() {
     return {
-      venues: [],
+      // venues: [],
       error: false,
       errorMsg: "",
       venue: null
-    }
-  },
-  async created() {
-    try {
-      this.venues = await VenueService.getVenues();
-    } catch (error) {
-      this.error = true;
-      this.errorMsg = error.message;
     }
   },
   mounted(){
@@ -118,20 +111,14 @@ export default {
         map: map
       });
     },
-    // detailsUpdate() {
-    //   const { venue } = this;
-    //   const address = document.querySelector('.address');
-    //   const phone = document.querySelector('.phone');
-    //   const web = document.querySelector('.web');
-    //   address.innerHTML = `${venue.address_components[0].long_name} ${venue.address_components[1].long_name}`
-    //   phone.innerHTML = "PHONE"
-    //   web.innerHTML = "WEBSITE";
-    // },
     venueUpdate(venue){
       this.venue = venue;
       this.mapUpdate();
       // this.detailsUpdate();
       this.addVenueErrorHandle();
+    },
+    clearInput(e){
+      e.target.value = '';
     },
     venueInputBlur(e){
       if(e.target.value === "") {

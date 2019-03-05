@@ -2,7 +2,7 @@
   <div>
     <div class="logo">
       <span class="logo-jazzfest">Jazzfest&nbsp;</span>
-      <span class="logo-grids">GRIDS</span>
+      <span class="logo-grids glow">GRIDS</span>
     </div>
     <carousel
       :navigateTo="currentDay"
@@ -59,16 +59,20 @@ export default {
   display: flex;
   align-items: center;
   padding: 0px 10px;
-  font-size: 20px;
   z-index: 1;
 }
 
 .logo .logo-jazzfest {
   font-family: "Marck Script", cursive;
+  font-size: 24px;
+  color: rgb(158, 40, 158);
 }
 
 .logo .logo-grids {
   font-family: "Monoton", cursive;
+  font-size: 30px;
+  top: 2px;
+  position: relative;
 }
 
 .date-container {
@@ -97,5 +101,21 @@ export default {
 
 .day {
   font-size: 20px;
+}
+
+.glow {
+  /* font-size: 80px; */
+  color: #fff;
+  text-align: center;
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from {
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #cace00, 0 0 20px #cace00, 0 0 25px #cace00, 0 0 30px #cace00, 0 0 35px #cace00;
+  }
+  to {
+    text-shadow: 0 0 10px #fff, 0 0 15px #fcff3e, 0 0 20px #fcff3e, 0 0 25px #fcff3e, 0 0 30px #fcff3e, 0 0 45px #fcff3e, 0 0 40px #fcff3e;
+  }
 }
 </style>
