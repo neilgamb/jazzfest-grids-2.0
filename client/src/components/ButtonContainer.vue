@@ -6,7 +6,7 @@
     <button @click="closeClicked" class="button button-cancel hide">
         <i class="fas fa-times"></i>
     </button>
-    <button @click="addVenueOpen" class="button button-addVenue">
+    <button @click="venueClicked" class="button button-addVenue">
         <i class="fas fa-map-marker-alt"></i>
     </button>
     <button @click="eventClicked" class="button button-addEvent">
@@ -35,6 +35,10 @@ export default {
       document.querySelector('.button-addEvent').classList.remove('reveal-animate-addEvent');
       document.querySelector('.button-addVenue').classList.add('hide-animate-addVenue');
       document.querySelector('.button-addEvent').classList.add('hide-animate-addEvent');
+    },
+    venueClicked() {
+      this.closeClicked();
+      this.addVenueOpen();   
     },
     eventClicked() {
       this.closeClicked();

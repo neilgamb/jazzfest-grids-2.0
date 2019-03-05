@@ -64,6 +64,7 @@ export default {
       if (!error) {
         await VenueService.insertVenue(venue);
         this.venues = await VenueService.getVenues();
+        this.$emit('close');
       }
     },
     // not currently being used anywhere
@@ -162,7 +163,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .addVenueContainer {
   height: 100%;
   width: 100%;
@@ -179,24 +180,24 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
 
-header h1 {
-  margin: 0 5px;
-  font-size: 24px;
-}
+  h1 {
+    margin: 0 5px;
+    font-size: 24px;
+  }
 
-header .closeButton {
-  background: rgb(15, 15, 15);
-  color: white;
-  border: none;
-  border-radius: 50%;
-  font-size: 20px;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  .closeButton {
+    background: rgb(15, 15, 15);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 20px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 #venueInput {
@@ -226,30 +227,30 @@ header .closeButton {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
 
-.address {
-  font-size: 24px;
-  width: 100%;
-  text-align: center;
-}
+  .address {
+    font-size: 24px;
+    width: 100%;
+    text-align: center;
+  }
 
-.contact {
-  font-size: 16px;
-  width: 90%;
-  display: flex;
-  justify-content: space-between;
-  margin-top: 10px;
-}
+  .contact {
+    font-size: 16px;
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
 
-.venueDetails .phone, 
-.venueDetails .web {
-  width: 40%;
-  padding: 10px;
-  text-align: center;
-  border: 3px solid white;
-  color: white;
-  text-decoration: none;
+    .phone,
+    .web {
+      width: 40%;
+      padding: 10px;
+      text-align: center;
+      border: 3px solid white;
+      color: white;
+      text-decoration: none;
+    }
+  }
 }
 
 .actions {

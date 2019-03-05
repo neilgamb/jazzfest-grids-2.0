@@ -88,7 +88,7 @@ export default {
     addEventOpen: function() {
       this.$modal.show(
         AddEventModal,
-        {},
+        {name: "addVenueModal"},
         {
           adaptive: true,
           width: "100%",
@@ -134,7 +134,6 @@ export default {
   flex-direction: column;
   box-sizing: border-box;
   background: rgb(15, 15, 15);
-  /* background-image: linear-gradient(to right top, #12161c, #141924, #161c2c, #1b1e33, #21203a); */
   color: white;
 }
 
