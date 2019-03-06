@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import VenueService from '../VenueService';
+import VenueService from '../services/VenueService';
 import { autoComplete } from '../helpers';
 import { mapStyles } from '../mapStyles';
 

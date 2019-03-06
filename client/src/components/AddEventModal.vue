@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import EventService from '../EventService';
+import EventService from '../services/EventService';
 
 export default {
   name: "AddEventModal",
