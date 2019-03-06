@@ -114,7 +114,7 @@ export default {
     addEventOpen: function() {
       this.$modal.show(
         AddEventModal,
-        {},
+        { venues: this.venues },
         {
           adaptive: true,
           width: "100%",

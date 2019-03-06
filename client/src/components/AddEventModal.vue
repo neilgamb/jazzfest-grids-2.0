@@ -21,12 +21,14 @@
 
       <div class="form-group">
         <label>Venue</label>
-        <input type="text" class="form-control" v-model="event.venue">
+        <select name="venue" id="venueSelect" v-on:change="venueChange">
+          <option v-for="venue in venues" :value="venue.venue.id" :key="venue.venue.id">{{venue.venue.name}}</option>
+        </select>
       </div>
 
       <div class="form-group">
         <label>Date</label>
-        <input type="date" class="form-control" v-model="event.date">
+        <input type="datetime-local" class="form-control" v-model="event.date">
       </div>
 
       <div class="form-group">
@@ -59,6 +61,7 @@ import EventService from '../EventService';
 
 export default {
   name: "AddEventModal",
+  props: ["venues"],
   data() {
     return {
       gridItems: [],
@@ -80,6 +83,10 @@ export default {
     // not currently being used anywhere
     async deleteEvent(id) {
       await EventService.deleteEvent(id);
+    },
+    venueChange(e){
+      console.log(e.target.value);
+      console.log(this.venues)
     }
   }
 };
@@ -132,7 +139,8 @@ header {
   }
 
   input, 
-  textarea {
+  textarea,
+  select {
     flex: 2;
     background: #08304b;
     border: 3px solid white;
@@ -144,7 +152,8 @@ header {
   }
 
   input::placeholder, 
-  textarea::placeholder {
+  textarea::placeholder,
+  select::placeholder {
     color: white;
   }
 }
