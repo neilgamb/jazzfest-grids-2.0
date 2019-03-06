@@ -56,14 +56,14 @@ export default {
       // check for errors before submitting server requests
       if (!error) {
         await VenueService.insertVenue(venue);
-        this.venues = await VenueService.getVenues();
+        // this.venues = await VenueService.getVenues();
         this.$emit('close');
       }
     },
     // not currently being used anywhere
     async deleteVenue(id) {
       await VenueService.deleteVenue(id);
-      this.venues = await VenueService.getVenues();
+      // this.venues = await VenueService.getVenues();
     },
     autoCompleteInit() {
       const venueInput = document.querySelector('#venueInput');

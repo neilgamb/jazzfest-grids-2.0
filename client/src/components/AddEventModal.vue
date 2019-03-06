@@ -1,56 +1,61 @@
 <template>
   <div class="addEventContainer">
-    <div class="addEvent">
+
+    <header>
       <h1>Add Event</h1>
-      
-      <form class="create-post">
-        <div class="form-group">
-          <label>Band</label>
-          <input type="text" class="form-control" v-model="post.band">
-        </div>
+      <button @click="$emit('close')" class="closeButton">
+        <i class="fas fa-times"></i>
+      </button>
+    </header>
 
-        <div class="form-group">
-          <label>Featuring</label>
-          <textarea class="form-control" v-model="post.featuring" rows="1"></textarea>
-        </div>
+    <form class="create-post">
+      <div class="form-group">
+        <label>Band</label>
+        <input type="text" class="form-control" v-model="event.band">
+      </div>
 
-        <div class="form-group">
-          <label>Venue</label>
-          <input type="text" class="form-control" v-model="post.venue">
-        </div>
+      <div class="form-group">
+        <label>Featuring</label>
+        <textarea class="form-control" v-model="event.featuring" rows="1"></textarea>
+      </div>
 
-        <div class="form-group">
-          <label>Date</label>
-          <input type="date" class="form-control" v-model="post.date">
-        </div>
+      <div class="form-group">
+        <label>Venue</label>
+        <input type="text" class="form-control" v-model="event.venue">
+      </div>
 
-        <div class="form-group">
-          <label>Doors</label>
-          <input type="date" class="form-control" v-model="post.doors">
-        </div>
+      <div class="form-group">
+        <label>Date</label>
+        <input type="date" class="form-control" v-model="event.date">
+      </div>
 
-        <div class="form-group">
-          <label>Price</label>
-          <input type="number" class="form-control" v-model="post.price">
-        </div>
+      <div class="form-group">
+        <label>Doors</label>
+        <input type="date" class="form-control" v-model="event.doors">
+      </div>
 
-        <div class="form-group">
-          <label>Tickets</label>
-          <input type="text" class="form-control" v-model="post.tix">
-        </div>
+      <div class="form-group">
+        <label>Price</label>
+        <input type="number" class="form-control" v-model="event.price">
+      </div>
 
-        <div v-on:click="createPost" class="createButton">Create</div>
-      </form>
+      <div class="form-group">
+        <label>Tickets</label>
+        <input type="text" class="form-control" v-model="event.tix">
+      </div>
+
+    </form>
+
+    <div class="actions">
+      <div v-if="error" class="errorMsg">{{ this.errorMsg }}</div>
+      <button v-if="!error" v-on:click="addEvent" id="addEvent" class="createButton">Add Event</button>
     </div>
 
-    <button @click="$emit('close')" class="closeButton">
-      <i class="fas fa-times"></i>
-    </button>
   </div>
 </template>
 
 <script>
-import GridService from '../GridService';
+import EventService from '../EventService';
 
 export default {
   name: "AddEventModal",
@@ -58,102 +63,105 @@ export default {
     return {
       gridItems: [],
       error: "",
-      post: {}
-    }
-  },
-  async created() {
-    try {
-      this.gridItems = await GridService.getGridItems();
-    } catch (error) {
-      this.error = error.message;
+      event: {}
     }
   },
   methods: {
-    async createPost() {
-      await GridService.insertPost(this.post);
-      this.gridItems = await GridService.getGridItems();
+    async addEvent() {
+      const { event, error } = this;
+
+      // check for errors before submitting server requests
+      if (!error) {
+        await EventService.insertEvent(event);
+        // this.venues = await VenueService.getVenues();
+        this.$emit('close');
+      }
     },
-    async deletePost(id) {
-      await GridService.deletePost(id);
-      this.gridItems = await GridService.getGridItems();
+    // not currently being used anywhere
+    async deleteEvent(id) {
+      await EventService.deleteEvent(id);
     }
   }
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .addEventContainer {
   height: 100%;
   width: 100%;
   display: flex;
   flex-direction: column;
-  color: black;
-  padding: 10px;
   box-sizing: border-box;
   position: relative;
-}
-
-.addEvent {
-  flex: 12;
-  display: flex;
-  flex-direction: column;
-}
-
-.addEvent h1 {
-  flex: 1;
-  margin: 0;
-}
-
-.addEvent form {
-  flex: 12;
-}
-
-.addEvent form {
-  display: flex;
-  flex-direction: column;
-}
-
-.addEvent form .form-group {
-  display: flex;
-  flex-direction: row;
+  background: rgb(15, 15, 15);
+  color: white;
   padding: 10px;
 }
 
-.addEvent label {
-  flex: 2;
+header {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  h1 {
+    margin: 0 5px;
+    font-size: 24px;
+  }
+
+  .closeButton {
+    background: rgb(15, 15, 15);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 20px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+#venueInput {
+  background: #08304b;
+  border: 3px solid white;
+  color: white;
+  padding: 10px;
+  box-sizing: border-box;
+  margin-top: 10px;
+  font-size: 20px;
+}
+
+#venueInput::placeholder {
+  color: white;
+}
+
+.actions {
+  margin-top: auto;
+}
+
+.errorMsg, 
+.createButton {
+  height: 50px;
+  border: 3px solid white;
+  width: 100%;
+  display: flex;
+  justify-content: center;
   align-items: center;
 }
 
-.addEvent input,
-.addEvent textarea {
-  flex: 5;
-  border: 1px solid #f0f0f0;
-  padding: 5px;
-}
-
 .createButton {
-  position: absolute;
-  left: 0px;
-  right: 0px;
-  bottom: 0px;
-  height: 50px;
-  border-top: 1px solid #f0f0f0;
-  width: 100%;
+  color: black;
   background: white;
+  font-size: 20px;
+  font-weight: 800;
 }
 
-.closeButton {
-  background: white;
-  position: absolute;
-  background: white;
-  border: none;
-  border-radius: 50%;
-  font-size: 20px;
-  width: 50px;
-  height: 50px;
-  top: 5px;
-  right: 5px;
+.errorMsg {
+  box-sizing: border-box;
+  background: rgb(207, 66, 66);
+  border: 3px solid white;
+  color: white;
 }
 </style>
 

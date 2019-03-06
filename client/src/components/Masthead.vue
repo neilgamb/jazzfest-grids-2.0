@@ -107,15 +107,15 @@ export default {
   /* font-size: 80px; */
   color: #fff;
   text-align: center;
-  animation: glow 2s ease-in-out infinite alternate;
+  animation: glow 5s ease-in-out infinite alternate;
 }
 
 @keyframes glow {
   from {
-    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #cace00, 0 0 20px #cace00, 0 0 25px #cace00, 0 0 30px #cace00, 0 0 35px #cace00;
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #a3a500, 0 0 20px #a3a500, 0 0 25px #a3a500;
   }
   to {
-    text-shadow: 0 0 10px #fff, 0 0 15px #fcff3e, 0 0 20px #fcff3e, 0 0 25px #fcff3e, 0 0 30px #fcff3e, 0 0 45px #fcff3e, 0 0 40px #fcff3e;
+    text-shadow: 0 0 10px #fff, 0 0 15px #fcff3e, 0 0 20px #fcff3e, 0 0 25px #fcff3e, 0 0 30px #fcff3e;
   }
 }
 </style>

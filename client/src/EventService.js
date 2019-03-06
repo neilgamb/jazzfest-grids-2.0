@@ -1,19 +1,19 @@
 import axios from 'axios';
 
-const url = 'http://localhost:5000/api/gridItems/';
+const url = 'http://localhost:5000/api/events/';
 
-class GridService {
+class EventService {
 
   // Get gridItem
-  static getGridItems(){
+  static getEvents(){
     return new Promise(async (resolve, reject) => {
         try {
           const res = await axios.get(url);
           const data = res.data;
           resolve(
-            data.map(gridItem => ({
-              ...gridItem,
-              createdAt: new Date(gridItem.createdAt)
+            data.map(event => ({
+              ...event,
+              createdAt: new Date(event.createdAt)
             }))
           );
         } catch(err) {
@@ -23,14 +23,14 @@ class GridService {
   }
 
   // Create gridItem
-  static insertPost(text){
+  static insertEvent(text){
     return axios.post(url, { text })
   }
   
   // Delete gridItem
-  static deletePost(id){
+  static deleteEvent(id){
     return axios.delete(`${url}${id}`, )
   }
 }
 
-export default GridService;
+export default EventService;
