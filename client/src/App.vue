@@ -42,7 +42,7 @@ import EventDetailsModal from "./components/EventDetailsModal";
 import AddEventModal from "./components/AddEventModal";
 import AddVenueModal from "./components/AddVenueModal";
 import { data } from "./assets/data.js";
-import { collateGrid } from "./helpers.js";
+import { collateGrid } from "./util/helpers.js";
 
 export default {
   name: "app",

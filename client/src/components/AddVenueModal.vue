@@ -30,8 +30,8 @@
 
 <script>
 import VenueService from '../services/VenueService';
-import { autoComplete } from '../helpers';
-import { mapStyles } from '../mapStyles';
+import { autoComplete } from '../util/helpers';
+import { mapStyles } from '../util/mapStyles';
 
 export default {
   name: "AddVenueModal",

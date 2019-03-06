@@ -30,7 +30,7 @@
 
 <script>
 import { Carousel, Slide } from "vue-carousel";
-import { dayOfWeek, monthOfYear } from "../helpers";
+import { dayOfWeek, monthOfYear } from "../util/helpers";
 
 export default {
   name: "Masthead",
