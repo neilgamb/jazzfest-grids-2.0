@@ -8,7 +8,7 @@
       </button>
     </header>
 
-    <form class="create-post">
+    <form class="create-event">
       <div class="form-group">
         <label>Band</label>
         <input type="text" class="form-control" v-model="event.band">
@@ -122,18 +122,31 @@ header {
   }
 }
 
-#venueInput {
-  background: #08304b;
-  border: 3px solid white;
-  color: white;
-  padding: 10px;
-  box-sizing: border-box;
-  margin-top: 10px;
-  font-size: 20px;
-}
+.form-group {
+  display: flex;
+  align-items: center;
 
-#venueInput::placeholder {
-  color: white;
+  label {
+    flex: 1;
+    font-size: 20px;
+  }
+
+  input, 
+  textarea {
+    flex: 2;
+    background: #08304b;
+    border: 3px solid white;
+    color: white;
+    padding: 10px;
+    box-sizing: border-box;
+    margin-top: 10px;
+    font-size: 20px;
+  }
+
+  input::placeholder, 
+  textarea::placeholder {
+    color: white;
+  }
 }
 
 .actions {
