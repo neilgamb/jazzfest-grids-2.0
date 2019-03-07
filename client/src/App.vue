@@ -83,14 +83,14 @@ export default {
         this.errorMsg = error.message;
       }
     },
-    setCurrentDay: function(day) {
+    setCurrentDay(day) {
       this.currentDay = day;
     },
-    setActiveTab: function(tab) {
+    setActiveTab(tab) {
       this.currentPeriod = tab;
       this.currentDay = 0;
     },
-    eventDetailsOpen: function(eventDetails) {
+    eventDetailsOpen(eventDetails) {
       this.currentEventDetails = eventDetails;
       this.$modal.show(
         EventDetailsModal,
@@ -105,10 +105,10 @@ export default {
         }
       );
     },
-    eventDetailsClose: function() {
+    eventDetailsClose() {
       this.currentEventDetails = null;
     },
-    addEventOpen: function() {
+    addEventOpen() {
       this.$modal.show(
         AddEventModal,
         { venues: this.venues },
@@ -119,7 +119,7 @@ export default {
         }
       );
     },
-    addVenueOpen: function() {
+    addVenueOpen() {
       this.$modal.show(
         AddVenueModal,
         { venues: this.venues },
@@ -130,11 +130,11 @@ export default {
         }
       );
     },
-    getDates: function(period) {
+    getDates(period) {
       const { dates } = this;
       return dates.filter(date => date.period === period);
     },
-    getGrid: function(period) {
+    getGrid(period) {
       const { grid } = this;
       return grid.filter(
         gridItem =>
