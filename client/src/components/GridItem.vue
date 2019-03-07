@@ -30,7 +30,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0px 5px;
+  padding: 5px;
 }
 .events {
   flex: 4;
