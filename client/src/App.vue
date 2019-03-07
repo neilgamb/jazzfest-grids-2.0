@@ -37,7 +37,7 @@ import EventDetailsModal from "./components/EventDetailsModal";
 import AddEventModal from "./components/AddEventModal";
 import AddVenueModal from "./components/AddVenueModal";
 import { data } from "./assets/data.js";
-import { collateGrid, getFestDay } from "./util/helpers.js";
+import { getFestDay } from "./util/helpers.js";
 import moment from "moment";
 
 export default {
@@ -58,7 +58,6 @@ export default {
       error: false,
       errorMsg: "",
       dates: data.dates,
-      // grid: collateGrid(data.grid)
       grid: []
     };
   },
@@ -145,23 +144,29 @@ export default {
     createGrid() {
       const { dates } = data;
       let grid = [];
-
+    
       this.venues.map(venue => {
         dates.map(date => {
           const gridItem = {
-            day: 0,
+            day: null,
             period: null,
             venue: venue,
             events: []
           };
 
-          this.events.map(event => {
+          this.events.map((event, i) => {
+            let eventDate = new Date(event.event.date);
+              
+            if (eventDate.getHours() <= 12) {
+              eventDate = moment(eventDate).subtract(1, "days");
+            }
+
             if (
               event.event.venue === venue.venue.id &&
-              moment(date.date).isSame(event.event.date, "day")
+              moment(eventDate).isSame(date.date, "day")
             ) {
               gridItem.events.push(event);
-              gridItem.day = getFestDay(event.event.date);
+              gridItem.day = getFestDay(eventDate);
               gridItem.period = date.period;
             }
           });

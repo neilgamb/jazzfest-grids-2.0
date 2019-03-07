@@ -86,6 +86,10 @@ export default {
   methods: {
     async addEvent() {
       const { event, error } = this;
+      let featuring = [];
+
+      event.featuring.split(', ').map(feature => featuring.push(feature));
+      event.featuring = featuring;
 
       // check for errors before submitting server requests
       if (!error) {

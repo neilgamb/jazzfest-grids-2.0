@@ -33,36 +33,11 @@ export function monthOfYear(date) {
   return monthsOfYear[date.getMonth()];
 }
 
-export function collateGrid(grid) {
-  grid.map(gridItem => {
-    let dates = [];
-
-    gridItem.events.map(event => {
-      dates.push(event.date);
-    });
-
-    let minDate = new Date(Math.min(...dates));
-
-    if (minDate.getHours() <= 12) {
-      minDate = moment(minDate).subtract(1, "days");
-    }
-
-    data.dates.map((date, i) => {
-      if (moment(date.date).isSame(minDate, "day")) {
-        gridItem.period = date.period;
-        gridItem.day = i;
-      }
-    });
-  });
-  return grid;
-}
-
 export function getFestDay(date) {
   const { dates } = data;
   let day;
   dates.map(d => {
     if (moment(date).isSame(d.date, "day")) {
-      // console.log(date, d);
       day = d.day;
     }
   });
