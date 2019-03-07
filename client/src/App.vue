@@ -1,27 +1,29 @@
 <template>
-  <div id="app">
-    <Masthead
-      :currentDay="currentDay"
-      :setCurrentDay="setCurrentDay"
-      :dates="getDates(currentPeriod)"
-      class="masthead"
-    />
+  <v-app>
+    <div id="app">
+      <Masthead
+        :currentDay="currentDay"
+        :setCurrentDay="setCurrentDay"
+        :dates="getDates(currentPeriod)"
+        class="masthead"
+      />
 
-    <Grid
-      :currentDay="currentDay"
-      :setCurrentDay="setCurrentDay"
-      :eventDetailsOpen="eventDetailsOpen"
-      :dates="getDates(currentPeriod)"
-      :grid="getGrid(currentPeriod)"
-      class="grid"
-    />
+      <Grid
+        :currentDay="currentDay"
+        :setCurrentDay="setCurrentDay"
+        :eventDetailsOpen="eventDetailsOpen"
+        :dates="getDates(currentPeriod)"
+        :grid="getGrid(currentPeriod)"
+        class="grid"
+      />
 
-    <Tabs :activeTab="currentPeriod" :setActiveTab="setActiveTab"/>
+      <Tabs :activeTab="currentPeriod" :setActiveTab="setActiveTab"/>
 
-    <ButtonContainer :addEventOpen="addEventOpen" :addVenueOpen="addVenueOpen"/>
+      <ButtonContainer :addEventOpen="addEventOpen" :addVenueOpen="addVenueOpen"/>
 
-    <modals-container/>
-  </div>
+      <modals-container/>
+    </div>
+  </v-app>
 </template>
 
 <script>
