@@ -1,6 +1,5 @@
 <template>
   <div class="addEventContainer">
-
     <header>
       <h1>Add Event</h1>
       <button @click="$emit('close')" class="closeButton">
@@ -22,42 +21,46 @@
       <div class="form-group">
         <label>Venue</label>
         <select name="venue" id="venueSelect" v-on:change="venueChange">
-          <option v-for="venue in venues" :value="venue.venue.id" :key="venue.venue.id">{{venue.venue.name}}</option>
+          <option
+            v-for="venue in venues"
+            :value="venue.venue.id"
+            :key="venue.venue.id"
+          >{{venue.venue.name}}</option>
         </select>
       </div>
 
       <div class="form-group">
         <label>Date</label>
-        <input type="datetime-local" class="form-control" v-model="event.date">
+        <datetime
+          class="datetimeInput"
+          type="datetime"
+          :inputStyle="dateInputStyle"
+          use12-hour
+          :minute-step="30"
+          v-model="event.date"
+        ></datetime>
       </div>
 
       <div class="form-group">
-        <label>Doors</label>
-        <input type="date" class="form-control" v-model="event.doors">
-      </div>
-
-      <div class="form-group">
-        <label>Price</label>
+        <label>Tix Price</label>
         <input type="number" class="form-control" v-model="event.price">
       </div>
 
       <div class="form-group">
-        <label>Tickets</label>
+        <label>Tix Link</label>
         <input type="text" class="form-control" v-model="event.tix">
       </div>
-
     </form>
 
     <div class="actions">
       <div v-if="error" class="errorMsg">{{ this.errorMsg }}</div>
       <button v-if="!error" v-on:click="addEvent" id="addEvent" class="createButton">Add Event</button>
     </div>
-
   </div>
 </template>
 
 <script>
-import EventService from '../services/EventService';
+import EventService from "../services/EventService";
 
 export default {
   name: "AddEventModal",
@@ -66,8 +69,13 @@ export default {
     return {
       gridItems: [],
       error: "",
-      event: {}
-    }
+      event: {},
+      dateInputStyle: {
+        background: "#08304b",
+        border: "none",
+        color: "white"
+      }
+    };
   },
   methods: {
     async addEvent() {
@@ -77,16 +85,16 @@ export default {
       if (!error) {
         await EventService.insertEvent(event);
         // this.venues = await VenueService.getVenues();
-        this.$emit('close');
+        this.$emit("close");
       }
     },
     // not currently being used anywhere
     async deleteEvent(id) {
       await EventService.deleteEvent(id);
     },
-    venueChange(e){
+    venueChange(e) {
       console.log(e.target.value);
-      console.log(this.venues)
+      console.log(this.venues);
     }
   }
 };
@@ -138,9 +146,10 @@ header {
     font-size: 20px;
   }
 
-  input, 
+  input,
   textarea,
-  select {
+  select,
+  .datetimeInput {
     flex: 2;
     background: #08304b;
     border: 3px solid white;
@@ -151,7 +160,7 @@ header {
     font-size: 20px;
   }
 
-  input::placeholder, 
+  input::placeholder,
   textarea::placeholder,
   select::placeholder {
     color: white;
@@ -162,7 +171,7 @@ header {
   margin-top: auto;
 }
 
-.errorMsg, 
+.errorMsg,
 .createButton {
   height: 50px;
   border: 3px solid white;
