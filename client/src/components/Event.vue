@@ -1,13 +1,13 @@
 <template>
-  <div class="event" v-on:click="eventDetailsOpen(event)">
-    <div class="time">{{ eventTime(event.date) }}</div>
+  <div class="event" v-on:click="eventDetailsOpen(event.event)">
+    <div class="time">{{ eventTime(event.event.date) }}</div>
     <div class="band-container">
-      <div class="band">{{ event.band }}</div>
-      <div v-if="event.featuring.length > 0" class="featuring">
+      <div class="band">{{ event.event.band }}</div>
+      <div v-if="event.event.featuring && event.event.featuring.length > 0" class="featuring">
         <div>
           <i>featuring</i>
         </div>
-        <div v-for="feature in event.featuring" :key="feature" class="feature">{{ feature }}</div>
+        <div v-for="feature in event.event.featuring" :key="feature" class="feature">{{ feature }}</div>
       </div>
     </div>
   </div>

@@ -57,27 +57,38 @@ export function collateGrid(grid) {
   return grid;
 }
 
-export function autoComplete(input, venueUpdate){
+export function getFestDay(date) {
+  const { dates } = data;
+  let day;
+  dates.map(d => {
+    if (moment(date).isSame(d.date, "day")) {
+      // console.log(date, d);
+      day = d.day;
+    }
+  });
+  return day;
+}
+
+export function autoComplete(input, venueUpdate) {
   const google = window.google;
 
-  if(!input) return;
+  if (!input) return;
 
   const nolaBounds = new google.maps.LatLngBounds(
-    new google.maps.LatLng(29.915024, -90.182380),
-    new google.maps.LatLng(30.034468, -90.000310),
+    new google.maps.LatLng(29.915024, -90.18238),
+    new google.maps.LatLng(30.034468, -90.00031)
   );
 
   const options = {
     bounds: nolaBounds,
     strictBounds: true,
-    types: ['establishment']
+    types: ["establishment"]
   };
 
   const dropdown = new google.maps.places.Autocomplete(input, options);
 
-  dropdown.addListener('place_changed', () => {
+  dropdown.addListener("place_changed", () => {
     const place = dropdown.getPlace();
     venueUpdate(place);
   });
-
 }

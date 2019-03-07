@@ -16,18 +16,11 @@
       class="grid"
     />
 
-    <Tabs 
-      :activeTab="currentPeriod" 
-      :setActiveTab="setActiveTab"
-    />
+    <Tabs :activeTab="currentPeriod" :setActiveTab="setActiveTab"/>
 
-    <ButtonContainer 
-      :addEventOpen="addEventOpen"
-      :addVenueOpen="addVenueOpen"
-    />
+    <ButtonContainer :addEventOpen="addEventOpen" :addVenueOpen="addVenueOpen"/>
 
     <modals-container/>
-
   </div>
 </template>
 
@@ -36,13 +29,14 @@ import Grid from "./components/Grid";
 import Masthead from "./components/Masthead";
 import Tabs from "./components/Tabs";
 import ButtonContainer from "./components/ButtonContainer";
-import VenueService from './services/VenueService';
-import EventService from './services/EventService';
+import VenueService from "./services/VenueService";
+import EventService from "./services/EventService";
 import EventDetailsModal from "./components/EventDetailsModal";
 import AddEventModal from "./components/AddEventModal";
 import AddVenueModal from "./components/AddVenueModal";
 import { data } from "./assets/data.js";
-import { collateGrid } from "./util/helpers.js";
+import { collateGrid, getFestDay } from "./util/helpers.js";
+import moment from "moment";
 
 export default {
   name: "app",
@@ -50,7 +44,7 @@ export default {
     Masthead,
     Grid,
     Tabs,
-    ButtonContainer,
+    ButtonContainer
   },
   data() {
     return {
@@ -62,7 +56,8 @@ export default {
       error: false,
       errorMsg: "",
       dates: data.dates,
-      grid: collateGrid(data.grid)
+      // grid: collateGrid(data.grid)
+      grid: []
     };
   },
   created() {
@@ -81,6 +76,7 @@ export default {
     async getVenues() {
       try {
         this.venues = await VenueService.getVenues();
+        this.createGrid();
       } catch (error) {
         this.error = true;
         this.errorMsg = error.message;
@@ -143,6 +139,38 @@ export default {
         gridItem =>
           gridItem.period === period && gridItem.day === this.currentDay
       );
+    },
+    createGrid() {
+      const { dates } = data;
+      let grid = [];
+
+      this.venues.map(venue => {
+        dates.map(date => {
+          const gridItem = {
+            day: 0,
+            period: null,
+            venue: venue,
+            events: []
+          };
+
+          this.events.map(event => {
+            if (
+              event.event.venue === venue.venue.id &&
+              moment(date.date).isSame(event.event.date, "day")
+            ) {
+              gridItem.events.push(event);
+              gridItem.day = getFestDay(event.event.date);
+              gridItem.period = date.period;
+            }
+          });
+
+          if (gridItem.events.length && gridItem.events.length > 0) {
+            grid.push(gridItem);
+          }
+        });
+      });
+
+      this.grid = grid;
     }
   }
 };

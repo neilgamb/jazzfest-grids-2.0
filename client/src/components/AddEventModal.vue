@@ -20,7 +20,13 @@
 
       <div class="form-group">
         <label>Venue</label>
-        <select name="venue" id="venueSelect" v-on:change="venueChange">
+        <select
+          name="venue"
+          class="form-control"
+          id="venueSelect"
+          v-model="event.venue"
+          v-on:change="venueChange"
+        >
           <option
             v-for="venue in venues"
             :value="venue.venue.id"
@@ -32,7 +38,7 @@
       <div class="form-group">
         <label>Date</label>
         <datetime
-          class="datetimeInput"
+          class="datetimeInput form-control"
           type="datetime"
           :inputStyle="dateInputStyle"
           use12-hour
@@ -84,7 +90,6 @@ export default {
       // check for errors before submitting server requests
       if (!error) {
         await EventService.insertEvent(event);
-        // this.venues = await VenueService.getVenues();
         this.$emit("close");
       }
     },
@@ -158,6 +163,7 @@ header {
     box-sizing: border-box;
     margin-top: 10px;
     font-size: 20px;
+    height: 50px;
   }
 
   input::placeholder,

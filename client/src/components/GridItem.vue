@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="venue">{{ gridItem.venue.name }}</div>
+    <div class="venue">{{ gridItem.venue.venue.name }}</div>
     <div class="events">
       <Event
         v-for="event in gridItem.events"
