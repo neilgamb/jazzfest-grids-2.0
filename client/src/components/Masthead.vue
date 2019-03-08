@@ -64,7 +64,7 @@ export default {
   .logo-jazzfest {
     font-family: 'Rock Salt', cursive;
     font-size: 20px;
-    color: rgb(158, 40, 158);
+    color: #9e289e;
     line-height: 23px;
     position: relative;
     top: 0px;

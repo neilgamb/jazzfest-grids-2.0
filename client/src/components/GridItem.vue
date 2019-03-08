@@ -32,11 +32,12 @@ export default {
   align-items: center;
   padding: 5px;
   font-size: 16px;
-}
+  color: #d83fd8;
+} 
 .events {
   flex: 4;
   display: flex;
-  justify-content: center;
+  justify-content: center;  
   align-items: center;
   flex-direction: column;
   border-left: 1px solid #56555e;
