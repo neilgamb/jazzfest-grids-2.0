@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="logo">  
-      <span class="logo-jazzfest">Jazz<br>fest</span>
+      <span class="logo-jazzfest">Jazz<br>Fest</span>
       <span class="logo-grids glow">GRIDS</span>
     </div>
     <carousel
@@ -49,10 +49,10 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .logo {
   position: absolute;
-  top: 6px;
+  top: 2px;
   left: 3px;
   height: 53px;
   background: rgb(15, 15, 15);
@@ -60,67 +60,74 @@ export default {
   align-items: center;
   padding: 0px 10px;
   z-index: 1;
-}
 
-.logo .logo-jazzfest {
-  font-family: 'Lakki Reddy', cursive;
-  font-size: 29px;
-  color: rgb(158, 40, 158);
-  line-height: 18px;
-  position: relative;
-  top: 5px;
-  right:  4px;
-  text-shadow: -1px 1px 0px #ea83e0, 1px -1px 0 #090808, -1px 1px 0 #000, 1px 1px 0 #000;
-}
+  .logo-jazzfest {
+    font-family: 'Rock Salt', cursive;
+    font-size: 20px;
+    color: rgb(158, 40, 158);
+    line-height: 23px;
+    position: relative;
+    top: 0px;
+    right: 6px;
+    z-index: 2;
+    -webkit-transform: rotate(-32deg);
+    transform: rotate(-32deg);
+    text-shadow: -1px 1px 0px #ea83e0, 1px -1px 0 #090808, -1px 1px 0 #000, 1px 1px 0 #000;
+  }
 
-.logo .logo-grids {
-  font-family: "Monoton", cursive;
-  font-size: 40px;
-  left: 5px;
-  position: relative;
+  .logo-grids {
+    font-family: "Monoton", cursive;
+    font-size: 35px;
+    left: -18px;
+    position: relative;
+  }
 }
 
 .date-container {
   display: flex;
   justify-content: flex-end;
-}
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
 
-.day-of-week {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0px 15px;
-  font-size: 20px;
-}
+  .day-of-week {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0px 10px;
+    font-size: 22px;
+    font-family: 'Sedgwick Ave', cursive;
+  }
 
-.calendar-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
+  .calendar-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px;
 
-.month {
-  font-size: 10px;
-}
+    .month {
+      font-size: 10px;
+    }
 
-.day {
-  font-size: 20px;
+    .day {
+      font-size: 20px;
+      line-height: 20px;
+    }
+  }
 }
 
 .glow {
   /* font-size: 80px; */
-  color: #fff;
+  color: #fffb93;
   text-align: center;
-  animation: glow 5s ease-in-out infinite alternate;
+  animation: glow 3s ease-in-out infinite alternate;
 }
 
 @keyframes glow {
   from {
-    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #a3a500, 0 0 20px #a3a500, 0 0 25px #a3a500;
+    text-shadow: 0 0 0px #fffb93, 0 0 5px #fffb93, 0 0 15px #fbff00, 0 0 25px #fbff00, 0 0 50px #fbff00;
   }
   to {
-    text-shadow: 0 0 10px #fff, 0 0 15px #fcff3e, 0 0 20px #fcff3e, 0 0 25px #fcff3e, 0 0 30px #fcff3e;
+    text-shadow: 0 0 10px #fffb93, 0 0 10px #fffb93, 0 0 20px #fcff3e, 0 0 40px #fcff3e, 0 0 500px #fcff3e;
   }
 }
 </style>

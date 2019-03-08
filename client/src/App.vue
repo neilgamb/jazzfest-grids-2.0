@@ -61,6 +61,10 @@ export default {
       grid: []
     };
   },
+  updated(){
+    this.getEvents();
+    this.getVenues();
+  },
   created() {
     this.getEvents();
     this.getVenues();
@@ -111,7 +115,9 @@ export default {
     addEventOpen() {
       this.$modal.show(
         AddEventModal,
-        { venues: this.venues },
+        { 
+          venues: this.venues,
+        },
         {
           adaptive: true,
           width: "100%",
@@ -157,7 +163,7 @@ export default {
           this.events.map((event, i) => {
             let eventDate = new Date(event.event.date);
               
-            if (eventDate.getHours() <= 12) {
+            if (eventDate.getHours() < 12) {
               eventDate = moment(eventDate).subtract(1, "days");
             }
 
@@ -185,7 +191,8 @@ export default {
 
 <style scoped>
 #app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  /* font-family: "Avenir", Helvetica, Arial, sans-serif; */
+  font-family: 'Sedgwick Ave', cursive;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -199,7 +206,7 @@ export default {
 }
 
 .masthead {
-  border-bottom: 2px solid white;
+  border-bottom: 1px solid #56555e;
   padding: 10px;
 }
 

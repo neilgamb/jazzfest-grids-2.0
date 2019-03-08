@@ -31,6 +31,7 @@ export default {
   justify-content: center;
   align-items: center;
   padding: 5px;
+  font-size: 16px;
 }
 .events {
   flex: 4;
@@ -38,7 +39,7 @@ export default {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  border-left: 2px solid white;
+  border-left: 1px solid #56555e;
 }
 </style>
 

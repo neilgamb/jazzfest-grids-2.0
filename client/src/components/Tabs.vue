@@ -41,21 +41,24 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  border-top: 2px solid white;
+  border-top: 1px solid #56555e;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
 }
 
 .tab {
   flex: 1;
   padding: 10px 0px;
+  line-height: 16px;
+  font-size: 18px;
 }
 
 .tab:not(:first-child) {
-  border-left: 2px solid white;
+  border-left: 1px solid #56555e;
 }
 
 .tab.active {
-  background: white;
-  color: rgb(15, 15, 15);
+  background: #bfc132;
+  /* color: rgb(0, 0, 0); */
 }
 </style>
  

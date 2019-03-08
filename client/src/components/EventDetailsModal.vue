@@ -26,7 +26,7 @@ export default {
 }
 
 .closeButton {
-  border-top: 2px solid white;
+  border-top: 1px solid #56555e;
   background: white;
   flex: 1;
 }

@@ -53,26 +53,33 @@ export default {
     position: fixed;
     border: none;
     transition: 200ms ease;
-    background: white;
-    color: black;
+    background: #3b8239;
     animation: reveal 1s;
     outline: none;
 }
 
 .button:hover {
     cursor: pointer;
-    /* transform: scale(1.2); */
 }
 
 .button-add,
 .button-cancel {
-    bottom: 75px;
-    right: 20px;
+    bottom: 65px;
+    right: 15px;
     height: 70px;
     width: 70px;
     border-radius: 70px;
     font-size: 2rem;
     z-index: 1;
+}
+
+.button-add {
+    box-shadow: 0px 0px 20px 4px #090e0b;
+}
+
+.button-cancel {
+    transform: scale(1.1);
+    box-shadow: 0px 0px 12px 3px #3b8239;
 }
 
 .button-addVenue,
@@ -81,12 +88,13 @@ export default {
     height: 40px;
     border-radius: 40px;
     font-size: 1.2rem;
+    box-shadow: 0px 0px 12px 3px #3b8239;
 }
 
 .button-addVenue,
 .button-addEvent {
-    bottom: 90px;
-    right: 35px;
+    bottom: 80px;
+    right: 30px;
     z-index: 0;
 }
 

@@ -30,7 +30,7 @@ export function dayOfWeek(date) {
 }
 
 export function monthOfYear(date) {
-  return monthsOfYear[date.getMonth()];
+  return monthsOfYear[date.getMonth()].substring(0, 3).toUpperCase();
 }
 
 export function getFestDay(date) {
