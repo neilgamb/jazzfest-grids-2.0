@@ -61,10 +61,6 @@ export default {
       grid: []
     };
   },
-  updated(){
-    this.getEvents();
-    this.getVenues();
-  },
   created() {
     this.getEvents();
     this.getVenues();
@@ -117,6 +113,7 @@ export default {
         AddEventModal,
         { 
           venues: this.venues,
+          addEventClose: this.addEventClose
         },
         {
           adaptive: true,
@@ -125,16 +122,26 @@ export default {
         }
       );
     },
+    addEventClose(events){
+      this.events = events;
+      this.createGrid();
+    },
     addVenueOpen() {
       this.$modal.show(
         AddVenueModal,
-        { venues: this.venues },
+        { 
+          venues: this.venues,
+          addVenueClose: this.addVenueClose
+        },
         {
           adaptive: true,
           width: "100%",
           height: "100%"
         }
       );
+    },
+    addVenueClose(venues) {
+      this.venues = venues;
     },
     getDates(period) {
       const { dates } = this;

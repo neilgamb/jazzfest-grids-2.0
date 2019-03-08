@@ -58,7 +58,6 @@ export default {
 
 .tab.active {
   background: #bfc132;
-  /* color: rgb(0, 0, 0); */
 }
 </style>
  

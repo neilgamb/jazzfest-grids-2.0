@@ -70,7 +70,7 @@ import EventService from "../services/EventService";
 
 export default {
   name: "AddEventModal",
-  props: ["venues"],
+  props: ["venues", "addEventClose"],
   data() {
     return {
       gridItems: [],
@@ -96,6 +96,8 @@ export default {
       // check for errors before submitting server requests
       if (!error) {
         await EventService.insertEvent(event);
+        const events = await EventService.getEvents();
+        this.addEventClose(events);
         this.$emit("close");
       }
     },

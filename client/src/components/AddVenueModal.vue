@@ -35,10 +35,9 @@ import { mapStyles } from '../util/mapStyles';
 
 export default {
   name: "AddVenueModal",
-  props: ["venues"],
+  props: ["venues", "addVenueClose"],
   data() {
     return {
-      // venues: [],
       error: false,
       errorMsg: "",
       venue: null
@@ -56,7 +55,8 @@ export default {
       // check for errors before submitting server requests
       if (!error) {
         await VenueService.insertVenue(venue);
-        // this.venues = await VenueService.getVenues();
+        const venues = await VenueService.getVenues();
+        this.addVenueClose(venues);
         this.$emit('close');
       }
     },
