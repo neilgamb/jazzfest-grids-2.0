@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="logo">
-      <span class="logo-jazzfest">Jazzfest&nbsp;</span>
+    <div class="logo">  
+      <span class="logo-jazzfest">Jazz<br>fest</span>
       <span class="logo-grids glow">GRIDS</span>
     </div>
     <carousel
@@ -52,8 +52,8 @@ export default {
 <style scoped>
 .logo {
   position: absolute;
-  top: 0px;
-  left: 0;
+  top: 6px;
+  left: 3px;
   height: 53px;
   background: rgb(15, 15, 15);
   display: flex;
@@ -63,15 +63,20 @@ export default {
 }
 
 .logo .logo-jazzfest {
-  font-family: "Marck Script", cursive;
-  font-size: 24px;
+  font-family: 'Lakki Reddy', cursive;
+  font-size: 29px;
   color: rgb(158, 40, 158);
+  line-height: 18px;
+  position: relative;
+  top: 5px;
+  right:  4px;
+  text-shadow: -1px 1px 0px #ea83e0, 1px -1px 0 #090808, -1px 1px 0 #000, 1px 1px 0 #000;
 }
 
 .logo .logo-grids {
   font-family: "Monoton", cursive;
-  font-size: 30px;
-  top: 2px;
+  font-size: 40px;
+  left: 5px;
   position: relative;
 }
 

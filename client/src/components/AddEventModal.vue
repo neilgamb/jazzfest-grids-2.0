@@ -88,7 +88,9 @@ export default {
       const { event, error } = this;
       let featuring = [];
 
-      event.featuring.split(', ').map(feature => featuring.push(feature));
+      if(event.featuring && event.featuring.length > 0){
+        event.featuring.split(', ').map(feature => featuring.push(feature));
+      }
       event.featuring = featuring;
 
       // check for errors before submitting server requests
