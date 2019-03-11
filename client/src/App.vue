@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app dark>
     <div id="app">
       <Masthead
         :currentDay="currentDay"
@@ -196,9 +196,10 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import './scss/_variables.scss';
+
 #app {
-  /* font-family: "Avenir", Helvetica, Arial, sans-serif; */
   font-family: 'Sedgwick Ave', cursive;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -208,12 +209,12 @@ export default {
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  background: rgb(15, 15, 15);
-  color: white;
+  background: $background-color;
+  color: $text-color-primary;
 }
 
 .masthead {
-  border-bottom: 1px solid #56555e;
+  border-bottom: 1px solid $border-color-primary;
   padding: 10px;
 }
 

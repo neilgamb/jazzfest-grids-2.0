@@ -52,7 +52,6 @@ export default {
     .band {
       font-family: 'Sedgwick Ave', cursive;
       font-size: 14px;
-      color: #bec200;
     }
 
     .featuring {

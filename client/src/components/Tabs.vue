@@ -36,28 +36,35 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .tabs-container {
   display: flex;
   justify-content: center;
   align-items: center;
   border-top: 1px solid #56555e;
   font-family: "Avenir", Helvetica, Arial, sans-serif;
-}
 
-.tab {
-  flex: 1;
-  padding: 10px 0px;
-  line-height: 16px;
-  font-size: 18px;
-}
+  .tab {
+    flex: 1;
+    padding: 10px 0px;
+    line-height: 16px;
+    font-size: 18px;
+    transition: 500ms;
+  }
 
-.tab:not(:first-child) {
-  border-left: 1px solid #56555e;
-}
+  .tab:not(:first-child) {
+    border-left: 1px solid #56555e;
+  }
 
-.tab.active {
-  background: #bfc132;
+  .tab.active {
+    background: #fffb93;
+    z-index: 2;
+    border-left: none;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    box-shadow: #fffcb1 0px -2px 5px 2px;
+    color: black;
+  }
 }
 </style>
  

@@ -5,7 +5,6 @@
     :mouse-drag="false"
     :paginationEnabled="false"
     :scrollPerPage="true"
-    :perPageCustom="[[0, 1], [480, 2]]"
     @pageChange="handleSlideChange"
   >
     <slide v-for="date in dates" :key="date.date.toString()" class="day">

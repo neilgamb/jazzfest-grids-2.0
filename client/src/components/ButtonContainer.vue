@@ -48,12 +48,14 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import '../scss/variables.scss';
+
 .button {
     position: fixed;
     border: none;
     transition: 200ms ease;
-    background: #3b8239;
+    background: $success;
     animation: reveal 1s;
     outline: none;
 }
@@ -79,7 +81,7 @@ export default {
 
 .button-cancel {
     transform: scale(1.1);
-    box-shadow: 0px 0px 12px 3px #3b8239;
+    box-shadow: 0px 0px 20px 4px #090e0b;
 }
 
 .button-addVenue,
@@ -88,7 +90,7 @@ export default {
     height: 40px;
     border-radius: 40px;
     font-size: 1.2rem;
-    box-shadow: 0px 0px 12px 3px #3b8239;
+    box-shadow: 0px 0px 20px 10px #090e0b96;
 }
 
 .button-addVenue,

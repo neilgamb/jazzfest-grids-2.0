@@ -15,20 +15,7 @@ export default {
 <style scoped>
 .eventDetailsContainer {
   height: 100%;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  color: black;
-}
-
-.eventDetails {
-  flex: 12;
-}
-
-.closeButton {
-  border-top: 1px solid #56555e;
-  background: white;
-  flex: 1;
+  background: $background-color;
 }
 </style>
 

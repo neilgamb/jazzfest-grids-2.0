@@ -1,29 +1,90 @@
 <template>
   <div class="addVenueContainer">
 
-    <header>
-      <h1>Add Venue</h1>
-      <button @click="$emit('close')" class="closeButton">
-        <i class="fas fa-times"></i>
-      </button>
-    </header>
+    <v-container class="header" text-xs-center>
+      <v-layout row wrap>
+        <v-flex xs11>
+          <h1>Add Venue</h1>
+        </v-flex>
+        <v-flex xs1>
+          <v-btn @click="$emit('close')" class="closeButton" flat icon>
+            <v-icon large>close</v-icon>
+          </v-btn>
+        </v-flex>
+      </v-layout>
+    </v-container>
 
-    <input @blur="venueInputBlur" @focus="clearInput" type="text" id="venueInput" class="form-control">
+    <v-container class="bodyContainer" grid-list-md text-xs-center>
+      <v-layout row wrap>
+        <v-flex xs12>
+          <v-text-field 
+            hide-details
+            label="venue" 
+            id="venueInput" 
+            placeholder="search..."
+            :value="venue && `${venue.name}, ${venue.formatted_address}`"
+            @focus="clearInput"
+          >
+          </v-text-field>
+        </v-flex>
+        <v-flex xs12>
+          <v-card>
+            <div id="map"></div>
+          </v-card>
+        </v-flex>
 
-    <div id="map"></div>
+        <v-flex xs12 v-if="venue" class="venueDetails">
+          <h2>{{ `${venue.address_components[0].long_name} ${venue.address_components[1].long_name}` }}</h2>
+        </v-flex>
 
-    <div v-if="venue" class="venueDetails">
-      <div class="address">{{ `${venue.address_components[0].long_name} ${venue.address_components[1].long_name}` }}</div>
-      <div class="contact">
-        <a class="phone" :href="`tel:${venue.international_phone_number}`">{{ venue.formatted_phone_number }}</a>
-        <a class="web" :href="`${venue.website}`" target="_blank">Website</a>
-      </div>
-    </div>
-
-    <div class="actions">
-      <div v-if="error" class="errorMsg">{{ this.errorMsg }}</div>
-      <button v-if="!error" v-on:click="addVenue" id="addVenue" class="createButton">Add Venue</button>
-    </div>
+        <v-layout v-if="venue" justify-center>
+          <v-flex xs5>
+            <v-btn 
+              block 
+              large
+              color="primary"
+              :href="`tel:${venue.international_phone_number}`">
+              Call<v-icon right>phone</v-icon>
+            </v-btn>
+          </v-flex>
+          <v-flex xs5>
+            <v-btn 
+              block 
+              large
+              color="primary" 
+              target="_blank"
+              :href="`${venue.website}`">
+              Website<v-icon right>public</v-icon>
+            </v-btn>
+          </v-flex>
+        </v-layout>
+      </v-layout>
+    </v-container>
+    
+    <v-container class="footer" grid-list-md text-xs-center>
+      <v-layout row wrap>
+        <v-flex xs12>
+          <v-alert
+            :value="saving"
+            type="success">
+            <h3><v-progress-circular indeterminate /></h3>
+          </v-alert>
+          <v-alert
+            :value="!error && !saving"
+            type="success"
+            class="createButton"
+            @click="addVenue">
+            <h3>Add Venue</h3>
+          </v-alert>
+          <v-alert
+            :value="error"
+            type="error"
+            class="errorMessage">
+            <h3>{{ this.errorMsg }}</h3>
+          </v-alert>
+        </v-flex>
+      </v-layout>
+    </v-container>
 
   </div>
 </template>
@@ -31,7 +92,7 @@
 <script>
 import VenueService from '../services/VenueService';
 import { autoComplete } from '../util/helpers';
-import { mapStyles } from '../util/mapStyles';
+// import { mapStyles } from '../util/mapStyles';
 
 export default {
   name: "AddVenueModal",
@@ -40,7 +101,8 @@ export default {
     return {
       error: false,
       errorMsg: "",
-      venue: null
+      venue: null,
+      saving: false
     }
   },
   mounted(){
@@ -54,10 +116,12 @@ export default {
 
       // check for errors before submitting server requests
       if (!error) {
+        this.saving = true;
         await VenueService.insertVenue(venue);
         const venues = await VenueService.getVenues();
-        this.addVenueClose(venues);
+        this.saving = false;
         this.$emit('close');
+        this.addVenueClose(venues);
       }
     },
     // not currently being used anywhere
@@ -77,7 +141,7 @@ export default {
         document.getElementById('map'), {
           zoom: 12, 
           center: newOrleans,
-          styles: mapStyles,
+          // styles: mapStyles,
           disableDefaultUI: true,
           zoomControl: true,
           fullscreenControl: true
@@ -97,14 +161,13 @@ export default {
         document.getElementById('map'), {
           zoom: 17, 
           center: venueCoordinates,
-          styles: mapStyles,
+          // styles: mapStyles,
           disableDefaultUI: true,
           zoomControl: true,
           fullscreenControl: true
         }
       );
 
-      // add marker
       /*eslint-disable no-unused-vars*/
       const marker = new google.maps.Marker({
         position: venueCoordinates, 
@@ -114,17 +177,10 @@ export default {
     venueUpdate(venue){
       this.venue = venue;
       this.mapUpdate();
-      // this.detailsUpdate();
       this.addVenueErrorHandle();
     },
     clearInput(e){
-      e.target.value = '';
-    },
-    venueInputBlur(e){
-      if(e.target.value === "") {
-        this.venue = null;
-      }
-      this.addVenueErrorHandle();
+      this.venue = null;
     },
     addVenueErrorHandle() {
       const { venue, venues } = this;
@@ -151,121 +207,56 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../scss/_mixins.scss';
+@import '../scss/_variables.scss';
+
 .addVenueContainer {
   height: 100%;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-  position: relative;
-  background: rgb(15, 15, 15);
-  color: white;
-  padding: 10px;
-}
+  background: $background-color;
 
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  .header {
+    padding-bottom: 0;
 
-  h1 {
-    margin: 0 5px;
-    font-size: 24px;
-  }
+    h1 {
+      text-align: left;
+      margin: 0px 0px 0px 2px;
+      font-family: "Monoton", cursive;
+      font-weight: 400;
+      color: lighten($secondary, 10%);
+      animation: glow 3s ease-in-out infinite alternate;
+    }
 
-  .closeButton {
-    background: rgb(15, 15, 15);
-    color: white;
-    border: none;
-    border-radius: 50%;
-    font-size: 20px;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-}
-
-#venueInput {
-  background: #08304b;
-  border: 3px solid white;
-  color: white;
-  padding: 10px;
-  box-sizing: border-box;
-  margin-top: 10px;
-  font-size: 20px;
-}
-
-#venueInput::placeholder {
-  color: white;
-}
-
-#map {
-  margin-top: 10px;
-  height: 300px;
-  width: 100%;
-  border: 3px solid white;
-  box-sizing: border-box;
-}
-
-.venueDetails {
-  margin-top: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  .address {
-    font-size: 24px;
-    width: 100%;
-    text-align: center;
-  }
-
-  .contact {
-    font-size: 16px;
-    width: 90%;
-    display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
-
-    .phone,
-    .web {
-      width: 40%;
-      padding: 10px;
-      text-align: center;
-      border: 3px solid white;
-      color: white;
-      text-decoration: none;
+    .closeButton {
+      margin: 0;
     }
   }
-}
 
-.actions {
-  margin-top: auto;
-}
+  .bodyContainer {
+    padding-top: 5px;
+  }
 
-.errorMsg, 
-.createButton {
-  height: 50px;
-  border: 3px solid white;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+  #map {
+    height: 300px;
+    width: 100%;
+    border-radius: 4px;
+  }
 
-.createButton {
-  color: black;
-  background: white;
-  font-size: 20px;
-  font-weight: 800;
-}
+  .venueDetails {
+    margin-top: 20px;
+  }
 
-.errorMsg {
-  box-sizing: border-box;
-  background: rgb(207, 66, 66);
-  border: 3px solid white;
-  color: white;
+  .footer {
+    padding: 0;
+    position: absolute;
+    bottom: 0;
+
+    .createButton, 
+    .errorMessage {
+      margin: 0;
+      border: none;
+    }
+
+  }
 }
 </style>
 

@@ -2,7 +2,7 @@
   <div>
     <div class="logo">  
       <span class="logo-jazzfest">Jazz<br>Fest</span>
-      <span class="logo-grids glow">GRIDS</span>
+      <span class="logo-grids">GRIDS</span>
     </div>
     <carousel
       :navigateTo="currentDay"
@@ -12,7 +12,6 @@
       :paginationPadding="2"
       :paginationSize="6"
       :scrollPerPage="true"
-      :perPageCustom="[[0, 1], [480, 2]]"
       paginationActiveColor="#f0f0f0"
       paginationColor="#666"
       @pageChange="handleSlideChange"
@@ -50,12 +49,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../scss/_mixins.scss';
+@import '../scss/variables.scss';
+
 .logo {
   position: absolute;
   top: 2px;
   left: 3px;
   height: 53px;
-  background: rgb(15, 15, 15);
+  background: $background-color;
+  box-shadow: 16px -20px 16px 6px $background-color;
   display: flex;
   align-items: center;
   padding: 0px 10px;
@@ -64,15 +67,14 @@ export default {
   .logo-jazzfest {
     font-family: 'Rock Salt', cursive;
     font-size: 20px;
-    color: #9e289e;
+    color: $primary;
     line-height: 23px;
     position: relative;
-    top: 0px;
+    top: 2px;
     right: 6px;
     z-index: 2;
-    -webkit-transform: rotate(-32deg);
     transform: rotate(-32deg);
-    text-shadow: -1px 1px 0px #ea83e0, 1px -1px 0 #090808, -1px 1px 0 #000, 1px 1px 0 #000;
+    text-shadow: 1px 1px $black;
   }
 
   .logo-grids {
@@ -80,6 +82,9 @@ export default {
     font-size: 35px;
     left: -18px;
     position: relative;
+    text-align: center;
+    color: lighten($secondary, 10%);
+    animation: glow 3s ease-in-out infinite alternate;
   }
 }
 
@@ -112,22 +117,6 @@ export default {
       font-size: 20px;
       line-height: 20px;
     }
-  }
-}
-
-.glow {
-  /* font-size: 80px; */
-  color: #fffb93;
-  text-align: center;
-  animation: glow 3s ease-in-out infinite alternate;
-}
-
-@keyframes glow {
-  from {
-    text-shadow: 0 0 0px #fffb93, 0 0 5px #fffb93, 0 0 15px #fbff00, 0 0 25px #fbff00, 0 0 50px #fbff00;
-  }
-  to {
-    text-shadow: 0 0 10px #fffb93, 0 0 10px #fffb93, 0 0 20px #fcff3e, 0 0 40px #fcff3e, 0 0 500px #fcff3e;
   }
 }
 </style>

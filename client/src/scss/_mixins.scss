@@ -1,0 +1,8 @@
+@keyframes glow {
+    from {
+      text-shadow: none;
+    }
+    to {
+      text-shadow: 0 0 10px #fffb93, 0 0 10px #fffb93, 0 0 20px #fcff3e, 0 0 40px #fcff3e, 0 0 500px #fcff3e;
+    }
+  }
