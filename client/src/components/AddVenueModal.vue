@@ -92,7 +92,7 @@
 <script>
 import VenueService from '../services/VenueService';
 import { autoComplete } from '../util/helpers';
-// import { mapStyles } from '../util/mapStyles';
+import { mapStyles } from '../util/mapStyles';
 
 export default {
   name: "AddVenueModal",
@@ -141,10 +141,8 @@ export default {
         document.getElementById('map'), {
           zoom: 12, 
           center: newOrleans,
-          // styles: mapStyles,
+          styles: mapStyles,
           disableDefaultUI: true,
-          zoomControl: true,
-          fullscreenControl: true
         }
       );
     },
@@ -161,10 +159,8 @@ export default {
         document.getElementById('map'), {
           zoom: 17, 
           center: venueCoordinates,
-          // styles: mapStyles,
+          styles: mapStyles,
           disableDefaultUI: true,
-          zoomControl: true,
-          fullscreenControl: true
         }
       );
 
