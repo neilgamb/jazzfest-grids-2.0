@@ -22,21 +22,16 @@
             <v-text-field
               required
               v-model="band"
-              :counter="20"
               :rules="bandRules"
-              label="Artist"
-            ></v-text-field>
-          </v-flex>
-          <v-flex xs12>
-            <v-text-field
-              v-model="name"
-              label="Event Name (optional)"
+              label="Artist / Event Title"
             ></v-text-field>
           </v-flex>
           <v-flex xs12>
             <v-combobox
                 chips
                 multiple
+                height=50
+                class="featuringCombo"
                 v-model="featuring"
                 label="Featuring (optional)"
               ></v-combobox>
@@ -171,15 +166,12 @@ import moment from "moment";
 export default {
   name: "AddEventModal",
   props: ["venues", "addEventClose"],
-  data: (vm) => ({
+  data: () => ({
     valid: true,
-    // event name
-    name: '',
     // band
     band: '',
     bandRules: [
-      v => !!v || 'Band / lead act is required',
-      v => (v && v.length <= 20) || 'Name must be less than 20 characters'
+      v => !!v || 'Required',
     ],
     featuring: null,
     // venue
@@ -307,7 +299,12 @@ export default {
   }
 
   .bodyContainer {
-    padding-top: 0px;
+    padding-top: 10px;
+
+    & /deep/ .v-select__selections { 
+      max-height: 42px;
+      overflow: auto;
+    }
   }
 
   .footer {
