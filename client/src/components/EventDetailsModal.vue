@@ -12,7 +12,9 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import '../scss/_variables.scss';
+
 .eventDetailsContainer {
   height: 100%;
   background: $background-color;
