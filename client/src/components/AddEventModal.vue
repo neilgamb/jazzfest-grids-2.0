@@ -209,10 +209,10 @@ export default {
     },
   },
   watch: {
-    date (val) {
+    date () {
       this.dateFormatted = this.formatDate(this.date)
     },
-    time (val) {
+    time () {
       this.timeFormatted = this.formatTime(this.time)
     }
   },
@@ -231,12 +231,6 @@ export default {
       const tempDate = new Date();
       tempDate.setHours(hours, mins);
       return moment(tempDate).format('h:mm a')
-    },
-    parseDate (date) {
-      if (!date) return null
-
-      const [ month, day, year ] = date.split('/')
-      return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
     },
     parseDate(date, time){
       const [ year, month, day ] = date.split('-')

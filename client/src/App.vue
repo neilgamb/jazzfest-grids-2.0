@@ -167,7 +167,7 @@ export default {
             events: []
           };
 
-          this.events.map((event, i) => {
+          this.events.map((event) => {
             let eventDate = new Date(event.event.date);
               
             if (eventDate.getHours() < 12) {
