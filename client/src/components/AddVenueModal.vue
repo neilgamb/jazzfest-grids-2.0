@@ -66,20 +66,21 @@
         <v-flex xs12>
           <v-alert
             :value="saving"
+            class="alertButton"
             type="success">
             <h3><v-progress-circular indeterminate /></h3>
           </v-alert>
           <v-alert
             :value="!error && !saving"
             type="success"
-            class="createButton"
+            class="alertButton"
             @click="addVenue">
             <h3>Add Venue</h3>
           </v-alert>
           <v-alert
             :value="error"
             type="error"
-            class="errorMessage">
+            class="alertButton">
             <h3>{{ this.errorMsg }}</h3>
           </v-alert>
         </v-flex>
@@ -229,16 +230,16 @@ export default {
 
   .bodyContainer {
     padding-top: 5px;
-  }
 
-  #map {
-    height: 300px;
-    width: 100%;
-    border-radius: 4px;
-  }
+    #map {
+      height: 300px;
+      width: 100%;
+      border-radius: 4px;
+    }
 
-  .venueDetails {
-    margin-top: 20px;
+    .venueDetails {
+      margin-top: 20px;
+    }
   }
 
   .footer {
@@ -246,12 +247,10 @@ export default {
     position: absolute;
     bottom: 0;
 
-    .createButton, 
-    .errorMessage {
+    .alertButton {
       margin: 0;
       border: none;
     }
-
   }
 }
 </style>

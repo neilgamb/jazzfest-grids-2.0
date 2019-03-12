@@ -13,126 +13,148 @@
     </v-layout>
   </v-container>
 
-  <v-form
-    ref="form"
-    v-model="valid"
-    lazy-validation>
-    <v-container class="bodyContainer" grid-list-md text-xs-center>
+  <v-container class="bodyContainer" grid-list-md text-xs-center>
+    <v-form
+      ref="form"
+      v-model="valid">
+        <v-layout row wrap>
+          <v-flex xs12>
+            <v-text-field
+              required
+              v-model="band"
+              :counter="20"
+              :rules="bandRules"
+              label="Artist"
+            ></v-text-field>
+          </v-flex>
+          <v-flex xs12>
+            <v-text-field
+              v-model="name"
+              label="Event Name (optional)"
+            ></v-text-field>
+          </v-flex>
+          <v-flex xs12>
+            <v-combobox
+                chips
+                multiple
+                v-model="featuring"
+                label="Featuring (optional)"
+              ></v-combobox>
+          </v-flex>
+          <v-flex xs12>
+            <v-select
+              required
+              v-model="venue"
+              :items="venues"
+              :rules="venueRules"
+              item-text="venue.name"
+              item-value="venue.id"
+              label="Venue"
+            ></v-select>
+          </v-flex>
+          <v-flex xs6>
+            <v-dialog
+              lazy
+              persistent
+              full-width
+              ref="dateDialog"
+              v-model="dateModal"
+              :return-value.sync="date"
+              width="290px">
+              <template v-slot:activator="{ on }">
+                <v-text-field
+                  readonly
+                  required
+                  v-on="on"
+                  :rules="dateRules"
+                  prepend-icon="event"
+                  v-model="computedDateFormatted"
+                  label="Date"
+                ></v-text-field>
+              </template>
+              <v-date-picker v-model="date" scrollable>
+                <v-spacer></v-spacer>
+                <v-btn @click="dateModal = false">Cancel</v-btn>
+                <v-btn @click="$refs.dateDialog.save(date)">OK</v-btn>
+              </v-date-picker>
+            </v-dialog> 
+          </v-flex>
+          <v-flex xs6>
+            <v-dialog
+              lazy
+              persistent
+              full-width
+              ref="timeDialog"
+              v-model="timeModal"
+              :return-value.sync="time"
+              width="290px">
+              <template v-slot:activator="{ on }">
+                <v-text-field
+                  readonly
+                  required
+                  v-on="on"
+                  :rules="timeRules"
+                  prepend-icon="access_time"
+                  v-model="computedTimeFormatted"
+                  label="Time"
+                ></v-text-field>
+              </template>
+              <v-time-picker
+                v-if="timeModal"
+                v-model="time"
+                :allowed-minutes="allowedStep"
+                full-width>
+                <v-spacer></v-spacer>
+                <v-btn @click="timeModal = false">Cancel</v-btn>
+                <v-btn @click="$refs.timeDialog.save(time)">OK</v-btn>
+              </v-time-picker>
+            </v-dialog>
+          </v-flex>
+          <v-flex xs12>
+            <v-text-field
+              label="Ticket Price"
+              v-model="price"
+              prefix="$"
+            ></v-text-field>
+          </v-flex>
+          <v-flex xs12>
+            <v-text-field
+              label="Link to Purchase Tickets"
+              v-model="tix"
+            ></v-text-field>
+          </v-flex>      
+        </v-layout>
+    </v-form>
+  </v-container>
+
+    <v-container class="footer" grid-list-md text-xs-center>
       <v-layout row wrap>
         <v-flex xs12>
-          <v-text-field
-            v-model="name"
-            label="Event Name (optional)"
-          ></v-text-field>
+          <v-alert
+            :value="saving"
+            class="alertButton"
+            type="success">
+            <h3><v-progress-circular indeterminate /></h3>
+          </v-alert>
+          <v-alert
+            :value="valid && !saving"
+            type="success"
+            class="alertButton"
+            @click="addEvent">
+            <h3>Add Event</h3>
+          </v-alert>
+          <v-alert
+            :value="!valid"
+            type="error"
+            class="alertButton">
+            <h3>Please complete required fields</h3>
+          </v-alert>
         </v-flex>
-        <v-flex xs12>
-          <v-text-field
-            v-model="band"
-            :counter="20"
-            :rules="bandRules"
-            label="Band"
-            required
-          ></v-text-field>
-        </v-flex>
-        <v-flex xs12>
-          <v-combobox
-              chips
-              multiple
-              v-model="featuring"
-              label="Featuring"
-            ></v-combobox>
-        </v-flex>
-        <v-flex xs12>
-          <v-select
-            v-model="venue"
-            :items="venues"
-            :rules="venueRules"
-            item-text="venue.name"
-            item-value="venue.id"
-            label="Venue"
-            required
-          ></v-select>
-        </v-flex>
-        <v-flex xs6>
-          <v-dialog
-            ref="dateDialog"
-            v-model="dateModal"
-            :return-value.sync="date"
-            persistent
-            lazy
-            full-width
-            width="290px"
-          >
-            <template v-slot:activator="{ on }">
-              <v-text-field
-                v-model="computedDateFormatted"
-                label="Date"
-                prepend-icon="event"
-                readonly
-                required
-                v-on="on"
-              ></v-text-field>
-            </template>
-            <v-date-picker v-model="date" scrollable>
-              <v-spacer></v-spacer>
-              <v-btn @click="dateModal = false">Cancel</v-btn>
-              <v-btn @click="$refs.dateDialog.save(date)">OK</v-btn>
-            </v-date-picker>
-          </v-dialog> 
-        </v-flex>
-        <v-flex xs6>
-          <v-dialog
-            ref="timeDialog"
-            v-model="timeModal"
-            :return-value.sync="time"
-            persistent
-            lazy
-            full-width
-            width="290px">
-            <template v-slot:activator="{ on }">
-              <v-text-field
-                v-model="time"
-                label="Time"
-                prepend-icon="access_time"
-                readonly
-                v-on="on"
-              ></v-text-field>
-            </template>
-            <v-time-picker
-              v-if="timeModal"
-              v-model="time"
-              full-width>
-              <v-spacer></v-spacer>
-              <v-btn @click="timeModal = false">Cancel</v-btn>
-              <v-btn @click="$refs.timeDialog.save(time)">OK</v-btn>
-            </v-time-picker>
-          </v-dialog>
-        </v-flex>
-        <v-flex xs12>
-          <v-text-field
-            label="Ticket Price"
-            v-model="price"
-            prefix="$"
-          ></v-text-field>
-          </v-flex>
       </v-layout>
     </v-container>
-  </v-form>
 
 
     <!-- <header>
-
-      <div class="form-group">
-        <label>Tix Price</label>
-        <input type="number" class="form-control" v-model="event.price">
-      </div>
-
-      <div class="form-group">
-        <label>Tix Link</label>
-        <input type="text" class="form-control" v-model="event.tix">
-      </div>
-    </form>
-
     <div class="actions">
       <div v-if="error" class="errorMsg">{{ this.errorMsg }}</div>
       <button v-if="!error" v-on:click="addEvent" id="addEvent" class="createButton">Add Event</button>
@@ -144,6 +166,7 @@
 
 <script>
 import EventService from "../services/EventService";
+import moment from "moment";
 
 export default {
   name: "AddEventModal",
@@ -166,69 +189,93 @@ export default {
     ],
     // date
     dateModal : false,
-    date: new Date().toISOString().substr(0, 10),
-    dateFormatted: vm.formatDate(new Date().toISOString().substr(0, 10)),
+    date: null,
+    dateFormatted: null,
     dateRules: [
       v => !!v || 'Date is required',
     ],
     // time
     timeModal : false,
-    time: '',
+    time: null,
+    timeFormatted: null,
     timeRules: [
       v => !!v || 'Time is required',
     ], 
     // ticket price
     price: '',
     // ticket link,
-    tix: ''
+    tix: '',
+    // saving & validation
+    saving: false
   }),
   computed: {
     computedDateFormatted () {
       return this.formatDate(this.date)
-    }
+    },
+    computedTimeFormatted () {
+      return this.formatTime(this.time)
+    },
   },
   watch: {
     date (val) {
       this.dateFormatted = this.formatDate(this.date)
+    },
+    time (val) {
+      this.timeFormatted = this.formatTime(this.time)
     }
   },
   methods: {
+    allowedStep: m => m % 15 === 0,
     formatDate (date) {
       if (!date) return null
 
-      const [year, month, day] = date.split('-')
+      const [ year, month, day ] = date.split('-')
       return `${month}/${day}/${year}`
+    },
+    formatTime (time) {
+      if(!time) return null
+
+      const [ hours , mins ] = time.split(':')
+      const tempDate = new Date();
+      tempDate.setHours(hours, mins);
+      return moment(tempDate).format('h:mm a')
     },
     parseDate (date) {
       if (!date) return null
 
-      const [month, day, year] = date.split('/')
+      const [ month, day, year ] = date.split('/')
       return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
-    }
-    // async addEvent() {
-    //   const { event, error } = this;
-    //   let featuring = [];
+    },
+    parseDate(date, time){
+      const [ year, month, day ] = date.split('-')
+      const [ hour, min ] = time.split(':')
+      return new Date(year, month - 1, day, hour, min).toISOString();
+    },
+    async addEvent() {
+      const { valid, name, band, featuring, venue, date, time, price, tix } = this;
 
-    //   if(event.featuring && event.featuring.length > 0){
-    //     event.featuring.split(', ').map(feature => featuring.push(feature));
-    //   }
-    //   event.featuring = featuring;
+      let event = {
+        name, 
+        band, 
+        featuring: featuring && featuring.length > 0 ? featuring : [],
+        venue,
+        date: this.parseDate(date, time),
+        price: parseFloat(price),
+        tix
+      }
 
-    //   // check for errors before submitting server requests
-    //   if (!error) {
-    //     await EventService.insertEvent(event);
-    //     const events = await EventService.getEvents();
-    //     this.addEventClose(events);
-    //     this.$emit("close");
-    //   }
-    // },
-    // // not currently being used anywhere
+      if (valid) {
+        this.saving = true;
+        await EventService.insertEvent(event);
+        const events = await EventService.getEvents();
+        this.saving = false;
+        this.$emit("close");
+        this.addEventClose(events);
+      }
+    },
+    // not currently being used anywhere
     // async deleteEvent(id) {
     //   await EventService.deleteEvent(id);
-    // },
-    // venueChange(e) {
-    //   // console.log(e.target.value);
-    //   // console.log(this.venues);
     // }
   }
 };
@@ -256,6 +303,21 @@ export default {
 
     .closeButton {
       margin: 0;
+    }
+  }
+
+  .bodyContainer {
+    padding-top: 0px;
+  }
+
+  .footer {
+    padding: 0;
+    position: absolute;
+    bottom: 0;
+
+    .alertButton {
+      margin: 0;
+      border: none;
     }
   }
 }
