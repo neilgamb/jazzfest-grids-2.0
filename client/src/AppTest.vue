@@ -1,41 +1,6 @@
 <template>
   <v-app dark id="app">
-    <v-navigation-drawer v-model="drawer" fixed app>
-      <v-list dense>
-        <v-list-tile>
-          <v-list-tile-action>
-            <v-icon>home</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>
-              <router-link to="/">Home</router-link>
-            </v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-        <v-list-tile>
-          <v-list-tile-action>
-            <v-icon>info</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>
-              <router-link to="/about">About</router-link>
-            </v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-      </v-list>
-      <v-btn
-        absolute
-        dark
-        fab
-        left
-        color="primary"
-        style="bottom: 10px"
-        class="hidden-lg-and-up"
-        @click="drawer = false"
-      >
-        <v-icon>close</v-icon>
-      </v-btn>
-    </v-navigation-drawer>
+    <Drawer/>
 
     <v-toolbar dark fixed app>
       <v-toolbar-title>Application</v-toolbar-title>
@@ -52,7 +17,7 @@
         color="primary"
         style="bottom: 10px"
         v-if="!drawer"
-        @click="drawer = true"
+        @click="openDrawer"
       >
         <v-icon>menu</v-icon>
       </v-btn>
@@ -65,7 +30,7 @@
         style="bottom: 10px"
         class="hidden-md-and-down"
         v-if="drawer"
-        @click="drawer = false"
+        @click="closeDrawer"
       >
         <v-icon>close</v-icon>
       </v-btn>
@@ -74,9 +39,19 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex";
+import Drawer from "./components/Drawer";
+
 export default {
-  data: () => ({
-    drawer: null
-  })
+  name: "App",
+  components: {
+    Drawer
+  },
+  computed: {
+    ...mapGetters(["drawer"])
+  },
+  methods: {
+    ...mapActions(["openDrawer", "closeDrawer"])
+  }
 };
 </script>
