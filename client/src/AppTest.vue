@@ -1,11 +1,7 @@
 <template>
   <v-app dark id="app">
+    <Header/>
     <Drawer/>
-
-    <v-toolbar dark fixed app>
-      <v-toolbar-title>Application</v-toolbar-title>
-    </v-toolbar>
-
     <v-content></v-content>
 
     <v-footer app>
@@ -41,11 +37,13 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 import Drawer from "./components/Drawer";
+import Header from "./components/Header";
 
 export default {
   name: "App",
   components: {
-    Drawer
+    Drawer,
+    Header
   },
   computed: {
     ...mapGetters(["drawer"])

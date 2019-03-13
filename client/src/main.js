@@ -5,8 +5,8 @@ import AppTest from "./AppTest.vue";
 import Vuetify from "vuetify";
 import VModal from "vue-js-modal";
 import router from "./router";
-import "vuetify/dist/vuetify.min.css";
 import { data } from "./assets/data";
+import "vuetify/dist/vuetify.min.css";
 
 Vue.config.productionTip = false;
 
