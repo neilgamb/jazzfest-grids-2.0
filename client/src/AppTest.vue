@@ -23,31 +23,60 @@
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
-      <v-btn absolute dark fab style="bottom: 10px" left color="primary" @click="drawer = false">
+      <v-btn
+        absolute
+        dark
+        fab
+        left
+        color="primary"
+        style="bottom: 10px"
+        class="hidden-lg-and-up"
+        @click="drawer = false"
+      >
         <v-icon>close</v-icon>
       </v-btn>
     </v-navigation-drawer>
 
-    <v-toolbar dark fixed app>  
+    <v-toolbar dark fixed app>
       <v-toolbar-title>Application</v-toolbar-title>
     </v-toolbar>
 
-    <v-content>
-
-    </v-content>
+    <v-content></v-content>
 
     <v-footer app>
-      <v-btn absolute dark fab style="bottom: 10px" left color="primary" @click="drawer = true">
+      <v-btn
+        absolute
+        dark
+        fab
+        left
+        color="primary"
+        style="bottom: 10px"
+        v-if="!drawer"
+        @click="drawer = true"
+      >
         <v-icon>menu</v-icon>
+      </v-btn>
+      <v-btn
+        absolute
+        dark
+        fab
+        left
+        color="primary"
+        style="bottom: 10px"
+        class="hidden-md-and-down"
+        v-if="drawer"
+        @click="drawer = false"
+      >
+        <v-icon>close</v-icon>
       </v-btn>
     </v-footer>
   </v-app>
 </template>
 
 <script>
-  export default {
-    data: () => ({
-      drawer: null
-    })
-  }
+export default {
+  data: () => ({
+    drawer: null
+  })
+};
 </script>
