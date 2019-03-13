@@ -18,7 +18,7 @@
         :scrollPerPage="true"
         paginationActiveColor="#f0f0f0"
         paginationColor="#666"
-        @pageChange="handleSlideChange"
+        @pageChange="setCurrentDay"
       >
         <slide v-for="date in dates" :key="date.date.toString()" class="date-container">
           <div class="day-of-week">{{ dayOfWeek(date.date) }}</div>
@@ -44,17 +44,20 @@ export default {
     Carousel,
     Slide
   },
+  updated () {
+    console.log(this.dates)
+  },
   computed: {
-    ...mapGetters(["dates", "currentDay"])
+    ...mapGetters(["dates", "currentDay", "currentPeriod"])
   },
   methods: {
     ...mapActions(["setCurrentDay"]),
-    handleSlideChange: function(current) {
-      this.setCurrentDay(current);
+    getDates (dates, period) {
+      return dates.filter(date => date.period === period)
     },
     dayOfWeek: dayOfWeek,
     monthOfYear: monthOfYear
-  }
+  },
 };
 </script>
 

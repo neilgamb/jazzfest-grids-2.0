@@ -40,8 +40,9 @@ const store = new Vuex.Store({
   },
   getters: {
     drawer: state => state.drawer,
-    dates: state => state.dates,
     currentDay: state => state.currentDay,
+    currentPeriod: state => state.currentPeriod,
+    dates: state => state.dates.filter(date => date.period === state.currentPeriod),
   },
   mutations: {
     openDrawer(state) {
@@ -52,7 +53,10 @@ const store = new Vuex.Store({
     },
     setCurrentDay(state, day) {
       state.currentDay = day;
-    }
+    },
+    setCurrentPeruod(state, period) {
+      state.currentPeriod = period;
+    },
   },
   actions: {
     openDrawer({ commit }) {
@@ -63,6 +67,9 @@ const store = new Vuex.Store({
     },
     setCurrentDay({ commit }, day) {
       commit("setCurrentDay", day);
+    },
+    setCurrentPeruod({ commit }, period) {
+      commit("setCurrentPeruod", period);
     },
   }
 });
