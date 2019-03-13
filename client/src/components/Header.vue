@@ -7,6 +7,28 @@
         </span>
         <span class="logo-grids">GRIDS</span>
       </div>
+
+      <carousel
+        :navigateTo="currentDay"
+        :per-page="1"
+        :mouse-drag="false"
+        :paginationEnabled="false"
+        :paginationPadding="2"
+        :paginationSize="6"
+        :scrollPerPage="true"
+        paginationActiveColor="#f0f0f0"
+        paginationColor="#666"
+        @pageChange="handleSlideChange"
+      >
+        <slide v-for="date in dates" :key="date.date.toString()" class="date-container">
+          <div class="day-of-week">{{ dayOfWeek(date.date) }}</div>
+          <div class="calendar-container">
+            <div class="month">{{ monthOfYear(date.date) }}</div>
+            <div class="day">{{ date.date.getDate() }}</div>
+          </div>
+        </slide>
+      </carousel>
+
     </v-toolbar-title>
   </v-toolbar>
 </template>
@@ -18,11 +40,20 @@ import { dayOfWeek, monthOfYear } from "../util/helpers";
 
 export default {
   name: "Header",
+  components: {
+    Carousel,
+    Slide
+  },
   computed: {
-    // ...mapGetters(["drawer"])
+    ...mapGetters(["dates", "currentDay"])
   },
   methods: {
-    // ...mapActions(["openDrawer", "closeDrawer"])
+    ...mapActions(["setCurrentDay"]),
+    handleSlideChange: function(current) {
+      this.setCurrentDay(current);
+    },
+    dayOfWeek: dayOfWeek,
+    monthOfYear: monthOfYear
   }
 };
 </script>
