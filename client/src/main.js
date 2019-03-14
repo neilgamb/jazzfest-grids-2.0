@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
-// import App from './App.vue'
+import App from "./App.vue";
 import AppTest from "./AppTest.vue";
 import Vuetify from "vuetify";
 import VModal from "vue-js-modal";
@@ -42,7 +42,8 @@ const store = new Vuex.Store({
     drawer: state => state.drawer,
     currentDay: state => state.currentDay,
     currentPeriod: state => state.currentPeriod,
-    dates: state => state.dates.filter(date => date.period === state.currentPeriod),
+    dates: state =>
+      state.dates.filter(date => date.period === state.currentPeriod)
   },
   mutations: {
     openDrawer(state) {
@@ -56,7 +57,7 @@ const store = new Vuex.Store({
     },
     setCurrentPeruod(state, period) {
       state.currentPeriod = period;
-    },
+    }
   },
   actions: {
     openDrawer({ commit }) {
@@ -70,7 +71,7 @@ const store = new Vuex.Store({
     },
     setCurrentPeruod({ commit }, period) {
       commit("setCurrentPeruod", period);
-    },
+    }
   }
 });
 

@@ -1,24 +1,21 @@
 <template>
   <v-navigation-drawer :value="drawer" fixed app>
-    <v-list dense>
-      <v-list-tile>
+    <v-list>
+      <v-list-tile to="/" ripple>
         <v-list-tile-action>
-          <v-icon>home</v-icon>
+          <v-icon>grid_on</v-icon>
         </v-list-tile-action>
         <v-list-tile-content>
-          <v-list-tile-title>
-            <router-link to="/">Home</router-link>
-          </v-list-tile-title>
+          <v-list-tile-title @click="closeDrawer">Grid</v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
-      <v-list-tile>
+
+      <v-list-tile to="/map" ripple>
         <v-list-tile-action>
-          <v-icon>info</v-icon>
+          <v-icon>public</v-icon>
         </v-list-tile-action>
         <v-list-tile-content>
-          <v-list-tile-title>
-            <router-link to="/about">About</router-link>
-          </v-list-tile-title>
+          <v-list-tile-title @click="closeDrawer">Map</v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
     </v-list>
@@ -52,5 +49,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../scss/_mixins.scss";
+@import "../scss/variables.scss";
+
+.routerLink {
+  font-size: 20px;
+  text-decoration: none;
+  color: $white;
+}
 </style>
 

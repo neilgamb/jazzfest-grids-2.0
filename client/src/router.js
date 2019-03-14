@@ -1,21 +1,21 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import Skills from './components/Skills.vue'
-import About from './components/About.vue'
+import Vue from "vue";
+import Router from "vue-router";
+import GridView from "./components/GridView.vue";
+import MapView from "./components/MapView.vue";
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
   routes: [
     {
-      path: '/',
-      name: 'skills',
-      component: Skills
+      path: "/",
+      name: "grid",
+      component: GridView
     },
     {
-      path: '/about',
-      name: 'about',
-      component: About
+      path: "/map",
+      name: "map",
+      component: MapView
     }
   ]
-})
+});
