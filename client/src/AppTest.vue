@@ -3,55 +3,23 @@
     <Header/>
     <Drawer/>
     <v-content>
-      <router-view></router-view>
+      <router-view />
     </v-content>
-
-    <v-footer app>
-      <v-btn
-        absolute
-        dark
-        fab
-        left
-        color="primary"
-        style="bottom: 10px"
-        v-if="!drawer"
-        @click="openDrawer"
-      >
-        <v-icon>menu</v-icon>
-      </v-btn>
-      <v-btn
-        absolute
-        dark
-        fab
-        left
-        color="primary"
-        style="bottom: 10px"
-        class="hidden-md-and-down"
-        v-if="drawer"
-        @click="closeDrawer"
-      >
-        <v-icon>close</v-icon>
-      </v-btn>
-    </v-footer>
+    <Footer />
   </v-app>
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
 import Drawer from "./components/Drawer";
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 export default {
   name: "App",
   components: {
     Drawer,
-    Header
-  },
-  computed: {
-    ...mapGetters(["drawer"])
-  },
-  methods: {
-    ...mapActions(["openDrawer", "closeDrawer"])
+    Header,
+    Footer,
   }
 };
 </script>

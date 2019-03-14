@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import App from "./App.vue";
+// import App from "./App.vue";
 import AppTest from "./AppTest.vue";
 import Vuetify from "vuetify";
 import VModal from "vue-js-modal";
