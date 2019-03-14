@@ -44,9 +44,6 @@ export default {
     Carousel,
     Slide
   },
-  updated() {
-    console.log(this.dates);
-  },
   computed: {
     ...mapGetters(["dates", "currentDay", "currentPeriod"])
   },

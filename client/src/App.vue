@@ -1,23 +1,23 @@
 <template>
   <v-app dark>
     <div id="app">
-      <Masthead
+      <!-- <Masthead
         :currentDay="currentDay"
         :setCurrentDay="setCurrentDay"
         :dates="getDates(currentPeriod)"
         class="masthead"
-      />
+      /> -->
 
-      <Grid
+      <!-- <Grid
         :currentDay="currentDay"
         :setCurrentDay="setCurrentDay"
         :eventDetailsOpen="eventDetailsOpen"
         :dates="getDates(currentPeriod)"
         :grid="getGrid(currentPeriod)"
         class="grid"
-      />
+      /> -->
 
-      <Tabs :activeTab="currentPeriod" :setActiveTab="setActiveTab"/>
+      <!-- <Tabs :activeTab="currentPeriod" :setActiveTab="setActiveTab"/> -->
 
       <ButtonContainer :addEventOpen="addEventOpen" :addVenueOpen="addVenueOpen"/>
 
@@ -27,12 +27,12 @@
 </template>
 
 <script>
-import Grid from "./components/Grid";
-import Masthead from "./components/Masthead";
-import Tabs from "./components/Tabs";
+// import Grid from "./components/Grid";
+// import Masthead from "./components/Masthead";
+// import Tabs from "./components/Tabs";
 import ButtonContainer from "./components/ButtonContainer";
-import VenueService from "./services/VenueService";
-import EventService from "./services/EventService";
+// import VenueService from "./services/VenueService";
+// import EventService from "./services/EventService";
 import EventDetailsModal from "./components/EventDetailsModal";
 import AddEventModal from "./components/AddEventModal";
 import AddVenueModal from "./components/AddVenueModal";
@@ -43,53 +43,53 @@ import moment from "moment";
 export default {
   name: "app",
   components: {
-    Masthead,
-    Grid,
-    Tabs,
+    // Masthead,
+    // Grid,
+    // Tabs,
     ButtonContainer
   },
-  data() {
-    return {
-      currentDay: 0,
-      currentPeriod: 0,
-      currentEventDetails: null,
-      venues: [],
-      events: [],
-      error: false,
-      errorMsg: "",
-      dates: data.dates,
-      grid: []
-    };
-  },
-  created() {
-    this.getEvents();
-    this.getVenues();
-  },
+  // data() {
+  //   return {
+  //     currentDay: 0,
+  //     currentPeriod: 0,
+  //     currentEventDetails: null,
+  //     venues: [],
+  //     events: [],
+  //     error: false,
+  //     errorMsg: "",
+  //     dates: data.dates,
+  //     grid: []
+  //   };
+  // },
+  // created() {
+  //   this.getEvents();
+  //   this.getVenues();
+  // },
   methods: {
-    async getEvents() {
-      try {
-        this.events = await EventService.getEvents();
-      } catch (error) {
-        this.error = true;
-        this.errorMsg = error.message;
-      }
-    },
-    async getVenues() {
-      try {
-        this.venues = await VenueService.getVenues();
-        this.createGrid();
-      } catch (error) {
-        this.error = true;
-        this.errorMsg = error.message;
-      }
-    },
-    setCurrentDay(day) {
-      this.currentDay = day;
-    },
-    setActiveTab(tab) {
-      this.currentPeriod = tab;
-      this.currentDay = 0;
-    },
+    // async getEvents() {
+    //   try {
+    //     this.events = await EventService.getEvents();
+    //   } catch (error) {
+    //     this.error = true;
+    //     this.errorMsg = error.message;
+    //   }
+    // },
+    // async getVenues() {
+    //   try {
+    //     this.venues = await VenueService.getVenues();
+    //     this.createGrid();
+    //   } catch (error) {
+    //     this.error = true;
+    //     this.errorMsg = error.message;
+    //   }
+    // },
+    // setCurrentDay(day) {
+    //   this.currentDay = day;
+    // },
+    // setActiveTab(tab) {
+    //   this.currentPeriod = tab;
+    //   this.currentDay = 0;
+    // },
     eventDetailsOpen(eventDetails) {
       this.currentEventDetails = eventDetails;
       this.$modal.show(
@@ -143,55 +143,55 @@ export default {
     addVenueClose(venues) {
       this.venues = venues;
     },
-    getDates(period) {
-      const { dates } = this;
-      return dates.filter(date => date.period === period);
-    },
-    getGrid(period) {
-      const { grid } = this;
-      return grid.filter(
-        gridItem =>
-          gridItem.period === period && gridItem.day === this.currentDay
-      );
-    },
-    createGrid() {
-      const { dates } = data;
-      let grid = [];
+    // getDates(period) {
+    //   const { dates } = this;
+    //   return dates.filter(date => date.period === period);
+    // },
+    // getGrid(period) {
+    //   const { grid } = this;
+    //   return grid.filter(
+    //     gridItem =>
+    //       gridItem.period === period && gridItem.day === this.currentDay
+    //   );
+    // },
+    // createGrid() {
+    //   const { dates } = data;
+    //   let grid = [];
     
-      this.venues.map(venue => {
-        dates.map(date => {
-          const gridItem = {
-            day: null,
-            period: null,
-            venue: venue,
-            events: []
-          };
+    //   this.venues.map(venue => {
+    //     dates.map(date => {
+    //       const gridItem = {
+    //         day: null,
+    //         period: null,
+    //         venue: venue,
+    //         events: []
+    //       };
 
-          this.events.map((event) => {
-            let eventDate = new Date(event.event.date);
+    //       this.events.map((event) => {
+    //         let eventDate = new Date(event.event.date);
               
-            if (eventDate.getHours() < 12) {
-              eventDate = moment(eventDate).subtract(1, "days");
-            }
+    //         if (eventDate.getHours() < 12) {
+    //           eventDate = moment(eventDate).subtract(1, "days");
+    //         }
 
-            if (
-              event.event.venue === venue.venue.id &&
-              moment(eventDate).isSame(date.date, "day")
-            ) {
-              gridItem.events.push(event);
-              gridItem.day = getFestDay(eventDate);
-              gridItem.period = date.period;
-            }
-          });
+    //         if (
+    //           event.event.venue === venue.venue.id &&
+    //           moment(eventDate).isSame(date.date, "day")
+    //         ) {
+    //           gridItem.events.push(event);
+    //           gridItem.day = getFestDay(eventDate);
+    //           gridItem.period = date.period;
+    //         }
+    //       });
 
-          if (gridItem.events.length && gridItem.events.length > 0) {
-            grid.push(gridItem);
-          }
-        });
-      });
+    //       if (gridItem.events.length && gridItem.events.length > 0) {
+    //         grid.push(gridItem);
+    //       }
+    //     });
+    //   });
 
-      this.grid = grid;
-    }
+    //   this.grid = grid;
+    // }
   }
 };
 </script>

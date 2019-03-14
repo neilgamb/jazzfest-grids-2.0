@@ -31,19 +31,21 @@ const store = new Vuex.Store({
     currentDay: 0,
     currentPeriod: 0,
     dates: data.dates,
-    currentEventDetails: null,
+    // currentEventDetails: null,
     venues: [],
     events: [],
-    error: false,
-    errorMsg: "",
+    error: null,
     grid: []
   },
   getters: {
     drawer: state => state.drawer,
     currentDay: state => state.currentDay,
     currentPeriod: state => state.currentPeriod,
-    dates: state =>
-      state.dates.filter(date => date.period === state.currentPeriod)
+    venues: state => state.venues,
+    events: state => state.events,
+    grid: state => state.grid.filter(gridItem => gridItem.period === state.currentPeriod && gridItem.day === state.currentDay),
+    error: state => state.error,
+    dates: state => state.dates.filter(date => date.period === state.currentPeriod),
   },
   mutations: {
     openDrawer(state) {
@@ -58,6 +60,18 @@ const store = new Vuex.Store({
     setCurrentPeriod(state, period) {
       state.currentPeriod = period;
       state.currentDay = 0;
+    },
+    setVenues(state, venues) {
+      state.venues = venues;
+    },
+    setEvents(state, events) {
+      state.events = events;
+    },
+    setGrid(state, grid) {
+      state.grid = grid;
+    },
+    setError(state, error) {
+      state.error = error;
     }
   },
   actions: {
@@ -72,6 +86,18 @@ const store = new Vuex.Store({
     },
     setCurrentPeriod({ commit }, period) {
       commit("setCurrentPeriod", period);
+    },
+    setVenues({ commit }, venues) {
+      commit("setVenues", venues);
+    },
+    setEvents({ commit }, events) {
+      commit("setEvents", events);
+    },
+    setGrid({ commit }, grid) {
+      commit("setGrid", grid);
+    },
+    setError({ commit }, error) {
+      commit("setError", error);
     }
   }
 });
