@@ -11,7 +11,7 @@
       </div>
 
       <div class="carouselContainer">
-        <carousel
+        <!-- <carousel
           :navigateTo="currentDay"
           :per-page="1"
           :mouse-drag="false"
@@ -30,7 +30,7 @@
               <div class="day">{{ date.date.getDate() }}</div>
             </div>
           </slide>
-        </carousel>
+        </carousel> -->
       </div>
 
     </v-toolbar-title>
@@ -72,8 +72,40 @@ export default {
 .titleContainer {
   height: 100%;
   width: 100%;
-  border: 1px solid white;
+  display: flex;
+  justify-content: space-between;
 
+  .logoContainer {
+    position: relative;
+    height: 100%;
+    width: 100%;
+
+    .logo {
+      position: absolute;
+      display: flex;
+      align-content: center;
+
+      .logo-jazzfest {
+        // border: 1px solid white;
+        font-family: "Rock Salt", cursive;
+        color: $primary;
+        font-size: 20px;
+        line-height: 23px;
+        text-shadow: 1px 1px $black;
+        transform: rotate(-32deg);
+        z-index: 2;
+        position: absolute;
+      }
+
+      .logo-grids {
+        border: 1px solid white;
+      }
+    }
+  }
+
+  .carouselContainer {
+    border: 1px solid white;
+  }
 
 }
 
