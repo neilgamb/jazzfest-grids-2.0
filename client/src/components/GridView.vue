@@ -4,7 +4,6 @@
     :setCurrentDay="setCurrentDay"
     :dates="dates"
     :grid="grid"
-    class="grid"
   />
 </template>
 

@@ -87,6 +87,10 @@ export default {
     .bottomNavBtn {
       display: flex;
       justify-content: center;
+
+      button {
+        max-width: none;
+      }
     }
   }
 }

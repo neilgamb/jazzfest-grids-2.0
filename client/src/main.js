@@ -1,7 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
-// import App from "./App.vue";
-import AppTest from "./AppTest.vue";
+import App from "./App.vue";
 import Vuetify from "vuetify";
 import VModal from "vue-js-modal";
 import router from "./router";
@@ -17,7 +16,7 @@ Vue.use(Vuetify, {
   theme: {
     primary: "#AB47BC",
     secondary: "#fbc02d",
-    accent: "#8bc34a",
+    accent: "#5d915b",
     error: "#ef5350",
     info: "#4fc3f7",
     success: "#5d915b",
@@ -105,5 +104,5 @@ const store = new Vuex.Store({
 new Vue({
   store,
   router,
-  render: h => h(AppTest)
+  render: h => h(App)
 }).$mount("#app");

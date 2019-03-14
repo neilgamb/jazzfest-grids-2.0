@@ -1,198 +1,107 @@
 <template>
-  <v-app dark>
-    <div id="app">
-      <!-- <Masthead
-        :currentDay="currentDay"
-        :setCurrentDay="setCurrentDay"
-        :dates="getDates(currentPeriod)"
-        class="masthead"
-      /> -->
-
-      <!-- <Grid
-        :currentDay="currentDay"
-        :setCurrentDay="setCurrentDay"
-        :eventDetailsOpen="eventDetailsOpen"
-        :dates="getDates(currentPeriod)"
-        :grid="getGrid(currentPeriod)"
-        class="grid"
-      /> -->
-
-      <!-- <Tabs :activeTab="currentPeriod" :setActiveTab="setActiveTab"/> -->
-
-      <ButtonContainer :addEventOpen="addEventOpen" :addVenueOpen="addVenueOpen"/>
-
-      <modals-container/>
-    </div>
+  <v-app dark id="app">
+    <Header/>
+    <Drawer/>
+    <v-content>
+      <router-view />
+    </v-content>
+    <Footer />
+    <ModalContainer />
   </v-app>
 </template>
 
 <script>
-// import Grid from "./components/Grid";
-// import Masthead from "./components/Masthead";
-// import Tabs from "./components/Tabs";
-import ButtonContainer from "./components/ButtonContainer";
-// import VenueService from "./services/VenueService";
-// import EventService from "./services/EventService";
-import EventDetailsModal from "./components/EventDetailsModal";
-import AddEventModal from "./components/AddEventModal";
-import AddVenueModal from "./components/AddVenueModal";
-import { data } from "./assets/data.js";
+import Drawer from "./components/Drawer";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import ModalContainer from "./components/ModalContainer";
+import VenueService from "./services/VenueService";
+import EventService from "./services/EventService";
 import { getFestDay } from "./util/helpers.js";
+import { mapActions, mapGetters } from "vuex";
 import moment from "moment";
 
 export default {
-  name: "app",
+  name: "App",
   components: {
-    // Masthead,
-    // Grid,
-    // Tabs,
-    ButtonContainer
+    Drawer,
+    Header,
+    Footer,
+    ModalContainer
   },
-  // data() {
-  //   return {
-  //     currentDay: 0,
-  //     currentPeriod: 0,
-  //     currentEventDetails: null,
-  //     venues: [],
-  //     events: [],
-  //     error: false,
-  //     errorMsg: "",
-  //     dates: data.dates,
-  //     grid: []
-  //   };
-  // },
-  // created() {
-  //   this.getEvents();
-  //   this.getVenues();
-  // },
+  created() {
+    this.getEvents();
+    this.getVenues();
+  },
+  computed: {
+    ...mapGetters(["dates", "venues", "events"])
+  },
   methods: {
-    // async getEvents() {
-    //   try {
-    //     this.events = await EventService.getEvents();
-    //   } catch (error) {
-    //     this.error = true;
-    //     this.errorMsg = error.message;
-    //   }
-    // },
-    // async getVenues() {
-    //   try {
-    //     this.venues = await VenueService.getVenues();
-    //     this.createGrid();
-    //   } catch (error) {
-    //     this.error = true;
-    //     this.errorMsg = error.message;
-    //   }
-    // },
-    // setCurrentDay(day) {
-    //   this.currentDay = day;
-    // },
-    // setActiveTab(tab) {
-    //   this.currentPeriod = tab;
-    //   this.currentDay = 0;
-    // },
-    eventDetailsOpen(eventDetails) {
-      this.currentEventDetails = eventDetails;
-      this.$modal.show(
-        EventDetailsModal,
-        {
-          event: this.currentEventDetails,
-          eventDetailsClose: this.eventDetailsClose
-        },
-        {
-          adaptive: true,
-          width: "100%",
-          height: "100%"
-        }
-      );
+    ...mapActions(["setEvents", "setVenues", "setGrid", "setError"]),
+    async getEvents() {
+      try {
+        const events = await EventService.getEvents();
+        this.setEvents(events);
+      } catch (error) {
+        this.setError(error);
+      }
+    },  
+    async getVenues() {
+      try {
+        const venues = await VenueService.getVenues();
+        this.setVenues(venues);
+        this.buildGrid();
+      } catch (error) {
+        this.setError(error);
+      }
     },
-    eventDetailsClose() {
-      this.currentEventDetails = null;
-    },
-    addEventOpen() {
-      this.$modal.show(
-        AddEventModal,
-        { 
-          venues: this.venues,
-          addEventClose: this.addEventClose
-        },
-        {
-          adaptive: true,
-          width: "100%",
-          height: "100%"
-        }
-      );
-    },
-    addEventClose(events){
-      this.events = events;
-      this.createGrid();
-    },
-    addVenueOpen() {
-      this.$modal.show(
-        AddVenueModal,
-        { 
-          venues: this.venues,
-          addVenueClose: this.addVenueClose
-        },
-        {
-          adaptive: true,
-          width: "100%",
-          height: "100%"
-        }
-      );
-    },
-    addVenueClose(venues) {
-      this.venues = venues;
-    },
-    // getDates(period) {
-    //   const { dates } = this;
-    //   return dates.filter(date => date.period === period);
-    // },
-    // getGrid(period) {
-    //   const { grid } = this;
-    //   return grid.filter(
-    //     gridItem =>
-    //       gridItem.period === period && gridItem.day === this.currentDay
-    //   );
-    // },
-    // createGrid() {
-    //   const { dates } = data;
-    //   let grid = [];
-    
-    //   this.venues.map(venue => {
-    //     dates.map(date => {
-    //       const gridItem = {
-    //         day: null,
-    //         period: null,
-    //         venue: venue,
-    //         events: []
-    //       };
+    buildGrid() {
+      const { dates, events, venues } = this;
+      let grid = [];
 
-    //       this.events.map((event) => {
-    //         let eventDate = new Date(event.event.date);
+      // for each venue...
+      venues.map(venue => {
+        
+        // loop through every date...
+        dates.map(date => {
+
+          // create a unique 'grid item / block'
+          const gridItem = {
+            day: null,
+            period: null,
+            venue: venue,
+            events: []
+          };
+
+          // loop through each event
+          events.map((event) => {
+            let eventDate = new Date(event.event.date);
               
-    //         if (eventDate.getHours() < 12) {
-    //           eventDate = moment(eventDate).subtract(1, "days");
-    //         }
+            // first need to adjust for shows starting > 11:59pm
+            if (eventDate.getHours() < 12) {
+              eventDate = moment(eventDate).subtract(1, "days");
+            }
 
-    //         if (
-    //           event.event.venue === venue.venue.id &&
-    //           moment(eventDate).isSame(date.date, "day")
-    //         ) {
-    //           gridItem.events.push(event);
-    //           gridItem.day = getFestDay(eventDate);
-    //           gridItem.period = date.period;
-    //         }
-    //       });
+            // populate grid item based on date && venue
+            if (
+              event.event.venue === venue.venue.id &&
+              moment(eventDate).isSame(date.date, "day")
+            ) {
+              gridItem.events.push(event);
+              gridItem.day = getFestDay(eventDate);
+              gridItem.period = date.period;
+            }
+          });
 
-    //       if (gridItem.events.length && gridItem.events.length > 0) {
-    //         grid.push(gridItem);
-    //       }
-    //     });
-    //   });
-
-    //   this.grid = grid;
-    // }
-  }
+          if (gridItem.events.length && gridItem.events.length > 0) {
+            grid.push(gridItem);
+          }
+        });
+      });
+      
+      this.setGrid(grid);
+    }
+  },
 };
 </script>
 
@@ -201,24 +110,9 @@ export default {
 
 #app {
   font-family: 'Sedgwick Ave', cursive;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  height: 100vh;
-  width: 100vw;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-  background: $background-color;
-  color: $text-color-primary;
 }
 
-.masthead {
-  border-bottom: 1px solid $border-color-primary;
-  padding: 10px;
-}
-
-.grid {
-  flex: 1;
+main {
+  padding: 5px 0px;
 }
 </style>
