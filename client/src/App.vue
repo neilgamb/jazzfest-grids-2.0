@@ -29,7 +29,7 @@ export default {
     Footer,
     ModalContainer
   },
-  created() {
+  mounted() {
     this.getEvents();
     this.getVenues();
   },
@@ -110,9 +110,5 @@ export default {
 
 #app {
   font-family: 'Sedgwick Ave', cursive;
-}
-
-main {
-  padding: 5px 0px;
 }
 </style>

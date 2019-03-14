@@ -58,7 +58,7 @@ const store = new Vuex.Store({
     },
     setCurrentPeriod(state, period) {
       state.currentPeriod = period;
-      state.currentDay = 0;
+      // state.currentDay = 0;
     },
     setVenues(state, venues) {
       state.venues = venues;

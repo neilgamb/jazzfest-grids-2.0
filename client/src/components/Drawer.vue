@@ -1,21 +1,21 @@
 <template>
   <v-navigation-drawer :value="drawer" fixed app>
     <v-list>
-      <v-list-tile to="/" ripple>
+      <v-list-tile to="/" @click="closeDrawer" ripple>
         <v-list-tile-action>
           <v-icon>grid_on</v-icon>
         </v-list-tile-action>
         <v-list-tile-content>
-          <v-list-tile-title @click="closeDrawer">Grid</v-list-tile-title>
+          <v-list-tile-title>Grid</v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
 
-      <v-list-tile to="/map" ripple>
+      <v-list-tile to="/map" @click="closeDrawer" ripple>
         <v-list-tile-action>
           <v-icon>public</v-icon>
         </v-list-tile-action>
         <v-list-tile-content>
-          <v-list-tile-title @click="closeDrawer">Map</v-list-tile-title>
+          <v-list-tile-title>Map</v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
     </v-list>

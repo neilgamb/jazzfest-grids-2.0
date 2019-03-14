@@ -19,7 +19,6 @@
       fab
       left
       small
-      color="error"
       style="bottom: 100px; left: 24px"
       class="button button-cancel hide"
       @click="closeClicked">
@@ -130,6 +129,10 @@ export default {
   left: 24px;
 }
 
+.button-cancel {
+  border: 1px solid white;
+}
+
 .hide {
     display: none;
 }
@@ -207,10 +210,12 @@ export default {
     0% {
         right: 106px;
         z-index: 4;
+        opacity: 1;
     }
     50% {
         right: 180px;
         z-index: 4;
+        opacity: .5;
     }
     100% {
         right: 35px;

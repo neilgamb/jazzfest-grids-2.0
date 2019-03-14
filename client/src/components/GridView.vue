@@ -4,6 +4,7 @@
     :setCurrentDay="setCurrentDay"
     :dates="dates"
     :grid="grid"
+    class="gridViewContainer"
   />
 </template>
 
