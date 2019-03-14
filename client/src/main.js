@@ -55,8 +55,9 @@ const store = new Vuex.Store({
     setCurrentDay(state, day) {
       state.currentDay = day;
     },
-    setCurrentPeruod(state, period) {
+    setCurrentPeriod(state, period) {
       state.currentPeriod = period;
+      state.currentDay = 0;
     }
   },
   actions: {
@@ -69,8 +70,8 @@ const store = new Vuex.Store({
     setCurrentDay({ commit }, day) {
       commit("setCurrentDay", day);
     },
-    setCurrentPeruod({ commit }, period) {
-      commit("setCurrentPeruod", period);
+    setCurrentPeriod({ commit }, period) {
+      commit("setCurrentPeriod", period);
     }
   }
 });

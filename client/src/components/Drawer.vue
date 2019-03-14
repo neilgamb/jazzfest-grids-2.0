@@ -25,7 +25,7 @@
       fab
       left
       color="primary"
-      style="bottom: 10px"
+      style="bottom: 30px"
       class="hidden-lg-and-up"
       @click="closeDrawer"
     >
