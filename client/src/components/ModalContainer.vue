@@ -24,6 +24,7 @@
       @click="closeClicked">
       <v-icon>close</v-icon>
     </v-btn>
+
     <v-btn
       absolute
       dark
@@ -36,6 +37,7 @@
       @click="eventClicked">
       <v-icon>music_note</v-icon>
     </v-btn>
+
     <v-btn
       absolute
       dark
@@ -91,8 +93,7 @@ export default {
         },
         {
           adaptive: true,
-          // width: "100%",
-          height: "100%"
+          height: window.innerWidth < 960 ? "100%" : "auto"
         }
       );
     },
@@ -109,8 +110,7 @@ export default {
         },
         {
           adaptive: true,
-          // width: "100%",
-          height: "100%"
+          height: window.innerWidth < 960 ? "100%" : "auto"
         }
       );
     },
@@ -123,6 +123,10 @@ export default {
 
 <style lang="scss" scoped>
 @import '../scss/variables.scss';
+
+/deep/ .v--modal {
+  background-color: $background-color-dark;
+}
 
 .button-addVenue,
 .button-addEvent {

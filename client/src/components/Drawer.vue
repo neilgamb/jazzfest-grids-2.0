@@ -6,7 +6,7 @@
           <v-icon>grid_on</v-icon>
         </v-list-tile-action>
         <v-list-tile-content>
-          <v-list-tile-title>Grid</v-list-tile-title>
+          <v-list-tile-title class="listItemTitle">Grid</v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
 
@@ -15,7 +15,7 @@
           <v-icon>public</v-icon>
         </v-list-tile-action>
         <v-list-tile-content>
-          <v-list-tile-title>Map</v-list-tile-title>
+          <v-list-tile-title class="listItemTitle">Map</v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
     </v-list>
@@ -52,10 +52,9 @@ export default {
 @import "../scss/_mixins.scss";
 @import "../scss/variables.scss";
 
-.routerLink {
+.listItemTitle {
   font-size: 20px;
-  text-decoration: none;
-  color: $white;
 }
+
 </style>
 

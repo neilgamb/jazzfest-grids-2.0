@@ -266,7 +266,7 @@ export default {
 
 .addEventContainer {
   height: 100%;
-  background: $background-color;
+  background: $background-color-dark;
 
   .header {
     padding-bottom: 0;
@@ -287,6 +287,7 @@ export default {
 
   .bodyContainer {
     padding-top: 10px;
+    margin-bottom: 56px;
 
     & /deep/ .v-select__selections { 
       max-height: 42px;

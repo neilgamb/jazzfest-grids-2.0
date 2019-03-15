@@ -158,7 +158,7 @@ export default {
         lat: venue.geometry.location.lat(), 
         lng: venue.geometry.location.lng()
       };
-      // update map
+        // update map
       /*eslint-disable no-unused-vars*/
       const map = new google.maps.Map(
         document.getElementById('map'), {
@@ -213,7 +213,7 @@ export default {
 
 .addVenueContainer {
   height: 100%;
-  background: $background-color;
+  background: $background-color-dark;
 
   .header {
     padding-bottom: 0;
@@ -233,7 +233,8 @@ export default {
   }
 
   .bodyContainer {
-    padding-top: 5px;
+    padding-top: 10px;
+    margin-bottom: 56px;
 
     #map {
       height: 300px;
