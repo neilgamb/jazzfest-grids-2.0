@@ -8,6 +8,10 @@
         <span class="logo-grids">GRIDS</span>
       </div>
     </v-toolbar-title>
+    <div v-if="!isMobile" class="manualDateNav">
+      <v-btn @click="currentDayDown" icon color="primary darken-2"><v-icon>keyboard_arrow_left</v-icon></v-btn>
+      <v-btn @click="currentDayUp" icon color="primary darken-2"><v-icon>keyboard_arrow_right</v-icon></v-btn>
+    </div>
     <div class="carouselContainer">
       <carousel
         :navigateTo="currentDay"
@@ -45,15 +49,37 @@ export default {
     Slide
   },
   computed: {
-    ...mapGetters(["dates", "currentDay", "currentPeriod"])
+    ...mapGetters(["dates", "currentDay", "currentPeriod"]),
+    isMobile() {
+      return window.innerWidth > 1024 ? false : true
+    }
   },
   methods: {
     ...mapActions(["setCurrentDay"]),
     getDates(dates, period) {
       return dates.filter(date => date.period === period);
     },
+    currentDayDown(){
+      const { currentDay } = this;
+      let newDay = currentDay;
+
+      if(currentDay === 0) return null;
+      newDay--;
+
+      this.setCurrentDay(newDay);
+    },
+    currentDayUp(){
+      const { currentDay, currentPeriod } = this;
+      let newDay = currentDay;
+
+      if((currentPeriod === 0 || currentPeriod === 2) && currentDay === 3) return null;
+      if(currentPeriod === 1 && currentDay === 2) return null;
+
+      newDay++;
+      this.setCurrentDay(newDay);
+    },
     dayOfWeek: dayOfWeek,
-    monthOfYear: monthOfYear
+    monthOfYear: monthOfYear,
   }
 };
 </script>
@@ -99,6 +125,10 @@ export default {
       left: 60px;
     }
   }
+}
+
+.manualDateNav {
+  display: flex;
 }
 
 .carouselContainer {
