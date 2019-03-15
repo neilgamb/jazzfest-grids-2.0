@@ -35,6 +35,9 @@ export default {
     venues: function() {
       this.getEventsForMap();
     },
+    events: function() {
+      this.getEventsForMap();
+    },
     eventsForMap: function() {
       this.deleteMarkers();
       this.updateMarkers();
@@ -60,6 +63,8 @@ export default {
       const { currentDay, dates, events, venues } = this;
       const currentDate = dates[currentDay].date;
       let eventsForMap = [];
+
+      if(!venues.length) return null
 
       events.map(e => {
         let eventDate = new Date(e.event.date);

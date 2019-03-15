@@ -29,6 +29,11 @@ export default {
     Footer,
     ModalContainer
   },
+  watch: {
+    events: function(){
+      this.buildGrid();
+    },
+  },
   mounted() {
     this.getEvents();
     this.getVenues();
@@ -54,6 +59,11 @@ export default {
       } catch (error) {
         this.setError(error);
       }
+    },
+    sortEvents(events){
+      return events.sort((a, b) => {
+        return new Date(a.event.date) - new Date(b.event.date)
+      })
     },
     buildGrid() {
       const { dates, events, venues } = this;
@@ -92,6 +102,8 @@ export default {
               gridItem.period = date.period;
             }
           });
+
+          if(gridItem.events && gridItem.events.length > 0) this.sortEvents(gridItem.events);
 
           if (gridItem.events.length && gridItem.events.length > 0) {
             grid.push(gridItem);

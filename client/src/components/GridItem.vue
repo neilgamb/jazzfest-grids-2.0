@@ -32,6 +32,7 @@ export default {
   align-items: center;
   padding: 5px;
   font-size: 16px;
+  text-align: center;
 } 
 .events {
   flex: 4;

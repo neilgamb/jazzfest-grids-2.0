@@ -2,19 +2,19 @@
   <div>
     <modals-container/>
     <v-btn
-      absolute
+      fixed
       dark
       fab
       left
       small
       color="primary"
       style="bottom: 100px; left: 24px"
-      class="button button-add"
+      class="button seethru button-add"
       @click="addClicked">
       <v-icon>add</v-icon>
     </v-btn>
     <v-btn
-      absolute
+      fixed
       dark
       fab
       left
@@ -26,7 +26,7 @@
     </v-btn>
 
     <v-btn
-      absolute
+      fixed
       dark
       fab
       left
@@ -39,7 +39,7 @@
     </v-btn>
 
     <v-btn
-      absolute
+      fixed
       dark
       fab
       left
@@ -126,6 +126,9 @@ export default {
 
 /deep/ .v--modal {
   background-color: $background-color-dark;
+}
+.seethru {
+  opacity: .8;
 }
 
 .button-addVenue,
