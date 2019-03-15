@@ -66,6 +66,7 @@ export default {
           case 0: return '#48224f'
           case 1: return '#826316'
           case 2: return '#354d1a'
+          default: return null;
         }
       }
   },

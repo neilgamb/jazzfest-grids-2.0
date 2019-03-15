@@ -46,7 +46,8 @@ export default {
 
 .gridItem {
   display: flex;
-  border-bottom: 1px solid #56555e;
+  margin-top: 10px;
+  /* border-bottom: 1px solid #56555e; */
 }
 
 .grid >>> .VueCarousel-wrapper {

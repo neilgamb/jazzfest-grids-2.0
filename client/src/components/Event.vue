@@ -1,24 +1,69 @@
 <template>
-  <div class="event" v-on:click="eventDetailsOpen(event.event)">
-    <div class="time">{{ eventTime(event.event.date) }}</div>
-    <div class="band-container">
-      <div class="band">{{ event.event.band }}</div>
-      <div v-if="event.event.featuring && event.event.featuring.length > 0" class="featuring">
-        <div>
-          <i>featuring</i>
+    <v-dialog
+      v-model="dialog"
+      width="500">
+
+      <template v-slot:activator="{ on }">
+        <div class="event" v-on="on">
+          <div class="time">{{ eventTime(event.event.date) }}</div>
+          <div class="band-container">
+            <div class="band">{{ event.event.band }}</div>
+            <div v-if="event.event.featuring && event.event.featuring.length > 0" class="featuring">
+              <div>
+                <i>featuring</i>
+              </div>
+              <div v-for="(feature, i) in event.event.featuring" :key="i" class="feature">{{ feature }}</div>
+            </div>
+          </div>
         </div>
-        <div v-for="feature in event.event.featuring" :key="feature" class="feature">{{ feature }}</div>
-      </div>
-    </div>
-  </div>
+      </template>
+
+      <v-card v-if="venue" class="showDetailContainer">
+        <v-card-title>
+          <h3>{{event.event.band}}</h3>
+        </v-card-title>
+        <v-divider></v-divider>
+        <v-card-text class="showDetail">
+          <p class="time">{{ eventTime(event.event.date) }} at {{ venue.name }}</p>
+          <div v-if="event.event.featuring && event.event.featuring.length > 0" class="featuring">
+            <p><i>Featuring</i></p>
+            <p class="feature" v-for="(feature, i) in event.event.featuring" :key="i" >{{feature}}</p>
+          </div>
+        </v-card-text>
+        <v-divider></v-divider>
+        <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="primary" @click="dialog = false">
+              Close
+            </v-btn>
+            <v-btn color="primary" :href="`${event.event.tix}`" target="_blank">
+              Purchase Tix!
+            </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import moment from "moment";
 
 export default {
   name: "Event",
-  props: ["event", "eventDetailsOpen"],
+  props: ["event"],
+  data() {
+    return {
+      dialog: false,
+      venue: null,
+    }
+  },
+  mounted(){
+    const { event, venues } = this;
+    this.venue = venues.find(venue => venue.venue.id === event.event.venue).venue;
+  },
+  computed: {
+    ...mapGetters(["venues"]),
+  },
   methods: {
     eventTime: function(date) {
       return moment(date).format("h:mm a");
@@ -52,12 +97,16 @@ export default {
     .band {
       font-family: 'Sedgwick Ave', cursive;
       font-size: 14px;
+      width: 100%;
+      text-align: center;
     }
 
     .featuring {
       font-size: 10px;
       margin-top: 5px;
       font-family: "Avenir", Helvetica, Arial, sans-serif;
+      width: 100%;
+      text-align: center;
 
       .feature {
         font-size: 12px;
@@ -67,8 +116,28 @@ export default {
   }
 }
 
-.event:not(:first-child) {
-  border-top: 1px solid #56555e;
+.showDetailContainer {
+
+  .showDetail {
+    font-size: 16px;
+    
+    .time {
+      font-family: "Avenir", Helvetica, Arial, sans-serif;
+    }
+
+    .featuring {
+      
+      p {
+        font-size: 12px;
+        margin-bottom: 5px;
+      }
+
+      .feature {
+        margin-bottom: 0px;
+        font-family: "Avenir", Helvetica, Arial, sans-serif;
+      }
+    }
+  }
 }
 </style>
 

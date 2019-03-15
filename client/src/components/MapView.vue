@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapState } from "vuex";
+import { mapGetters } from "vuex";
 import { mapStyles } from '../util/mapStyles';
 import moment from 'moment';
 
@@ -26,16 +26,16 @@ export default {
     ...mapGetters(["currentDay", "currentPeriod", "venues", "events", "dates"]),
   },
   watch: {
-    currentDay: function(current, prev){
+    currentDay: function(){
       this.getEventsForMap();
     },
-    currentPeriod: function(current, prev){
+    currentPeriod: function(){
       this.getEventsForMap();
     },
-    venues: function(current, prev) {
+    venues: function() {
       this.getEventsForMap();
     },
-    eventsForMap: function(current, prev) {
+    eventsForMap: function() {
       this.deleteMarkers();
       this.updateMarkers();
       this.setMapOnAll(this.map);
@@ -97,9 +97,10 @@ export default {
       const infoWindow = new window.google.maps.InfoWindow({
         content: content
       });
+
       const marker = new window.google.maps.Marker({
         position: eventLocation,
-        animation: google.maps.Animation.DROP,
+        animation: window.google.maps.Animation.DROP,
         map: this.map,
         title: 'test'
       });

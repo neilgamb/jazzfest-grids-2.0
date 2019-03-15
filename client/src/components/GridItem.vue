@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-card>
     <div class="venue">{{ gridItem.venue.venue.name }}</div>
     <div class="events">
       <Event
@@ -9,7 +9,7 @@
         :key="event.band"
       />
     </div>
-  </div>
+  </v-card>
 </template>
 
 <script>
