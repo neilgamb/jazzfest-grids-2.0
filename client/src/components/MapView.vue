@@ -20,8 +20,9 @@ export default {
   },
   mounted(){
     this.mapInit();
+    this.getEventsForMap();
   },
-  computed: {
+  computed: { 
     ...mapGetters(["currentDay", "currentPeriod", "venues", "events", "dates"]),
   },
   watch: {
@@ -86,7 +87,13 @@ export default {
       markers.map(marker => marker.setMap(map))
     },
     addMarker(eventLocation, event) {
-      const content = `<div id="content">${event.band}</div>`;
+      const content = `
+        <div id="content">
+          <h3>${event.band}</h3>
+          <div>${event.venueInfo.name} // ${moment(event.date).format("h:mm a")}</div>
+          <div><a href="${event.tix}" target="_blank">Tickets: $${event.price}</a></div>
+        </div>
+      `;
       const infoWindow = new window.google.maps.InfoWindow({
         content: content
       });
@@ -120,14 +127,11 @@ export default {
   left: 0;
   right: 0;
   bottom: 0;
+  color: black;
 
   #mapView {
     height: 100%;
     width: 100%;
-
-    #content {
-      color: black;
-    }
   }
 }
 </style>

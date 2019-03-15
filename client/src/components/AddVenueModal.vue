@@ -94,10 +94,10 @@
 import VenueService from '../services/VenueService';
 import { autoComplete } from '../util/helpers';
 import { mapStyles } from '../util/mapStyles';
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "AddVenueModal",
-  props: ["venues", "addVenueClose"],
   data() {
     return {
       error: false,
@@ -111,7 +111,11 @@ export default {
     this.mapInit();
     this.addVenueErrorHandle();
   },
+  computed: {
+    ...mapGetters(["venues"])
+  },
   methods: {
+    ...mapActions(["setVenues"]),
     async addVenue() {
       const { venue, error } = this;
 
@@ -122,7 +126,7 @@ export default {
         const venues = await VenueService.getVenues();
         this.saving = false;
         this.$emit('close');
-        this.addVenueClose(venues);
+        this.setVenues(venues);
       }
     },
     // not currently being used anywhere

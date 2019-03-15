@@ -147,25 +147,16 @@
         </v-flex>
       </v-layout>
     </v-container>
-
-
-    <!-- <header>
-    <div class="actions">
-      <div v-if="error" class="errorMsg">{{ this.errorMsg }}</div>
-      <button v-if="!error" v-on:click="addEvent" id="addEvent" class="createButton">Add Event</button>
-    </div> -->
-
-
   </div>
 </template>
 
 <script>
 import EventService from "../services/EventService";
 import moment from "moment";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "AddEventModal",
-  props: ["venues", "addEventClose"],
   data: () => ({
     valid: true,
     // band
@@ -201,6 +192,7 @@ export default {
     saving: false
   }),
   computed: {
+    ...mapGetters(["venues"]),
     computedDateFormatted () {
       return this.formatDate(this.date)
     },
@@ -217,6 +209,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(["setEvents"]),
     allowedStep: m => m % 15 === 0,
     formatDate (date) {
       if (!date) return null
@@ -256,7 +249,7 @@ export default {
         const events = await EventService.getEvents();
         this.saving = false;
         this.$emit("close");
-        this.addEventClose(events);
+        this.setEvents(events)
       }
     },
     // not currently being used anywhere
